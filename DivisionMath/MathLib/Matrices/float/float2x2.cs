@@ -3,7 +3,7 @@
 namespace DivisionEngine.MathLib
 {
     /// <summary>
-    /// Represents a 2x2 matrix in column-major order (matching HLSL and GLSL conventions).
+    /// Represents a 2x2 matrix in column-major order (matching HLSL conventions).
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct float2x2
@@ -44,8 +44,7 @@ namespace DivisionEngine.MathLib
             c1 = new float2(m[0, 1], m[1, 1]);
         }
 
-        #endregion
-
+        #endregion Constructors
         #region Indexers
 
         // Column-major indexer
@@ -92,17 +91,15 @@ namespace DivisionEngine.MathLib
             }
         }
 
-        #endregion
-
-        #region Static Properties
+        #endregion Indexers
+        #region StaticProperties
 
         public static float2x2 identity => new float2x2(1f);
 
         public static float2x2 zero => new float2x2(0f);
 
-        #endregion
-
-        #region Arithmetic Operators
+        #endregion StaticProperties
+        #region ArithmeticOperators
 
         // Matrix-Matrix
         public static float2x2 operator +(float2x2 a, float2x2 b) => new float2x2(a.c0 + b.c0, a.c1 + b.c1);
@@ -114,32 +111,22 @@ namespace DivisionEngine.MathLib
         // Matrix-Vector
         public static float2 operator *(float2x2 m, float2 v) => v.x * m.c0 + v.y * m.c1;
 
-        #endregion
+        #endregion ArithmeticOperators
+        #region StaticMethods
 
-        #region Static Methods
+        public static float2x2 mul(float2x2 a, float2x2 b) => new float2x2(
+            a.c0.x * b.c0.x + a.c1.x * b.c0.y,
+            a.c0.y * b.c0.x + a.c1.y * b.c0.y,
+            a.c0.x * b.c1.x + a.c1.x * b.c1.y,
+            a.c0.y * b.c1.x + a.c1.y * b.c1.y
+        );
 
-        public static float2x2 mul(float2x2 a, float2x2 b)
-        {
-            return new float2x2(
-                a.c0.x * b.c0.x + a.c1.x * b.c0.y,
-                a.c0.y * b.c0.x + a.c1.y * b.c0.y,
-                a.c0.x * b.c1.x + a.c1.x * b.c1.y,
-                a.c0.y * b.c1.x + a.c1.y * b.c1.y
-            );
-        }
+        public static float2x2 transpose(float2x2 m) => new float2x2(
+            m.c0.x, m.c1.x,
+            m.c0.y, m.c1.y
+        );
 
-        public static float2x2 transpose(float2x2 m)
-        {
-            return new float2x2(
-                m.c0.x, m.c1.x,
-                m.c0.y, m.c1.y
-            );
-        }
-
-        public static float determinant(float2x2 m)
-        {
-            return m.c0.x * m.c1.y - m.c1.x * m.c0.y;
-        }
+        public static float determinant(float2x2 m) => m.c0.x * m.c1.y - m.c1.x * m.c0.y;
 
         public static float2x2 inverse(float2x2 m)
         {
@@ -154,44 +141,39 @@ namespace DivisionEngine.MathLib
             );
         }
 
-        #endregion
-
-        #region Instance Methods
+        #endregion StaticMethods
+        #region InstanceMethods
 
         public readonly float2x2 transpose() => transpose(this);
         public readonly float determinant() => determinant(this);
         public readonly float2x2 inverse() => inverse(this);
 
-        #endregion
-
+        #endregion InstanceMethods
         #region Equality
 
         public static bool operator ==(float2x2 a, float2x2 b) => (a.c0 == b.c0).all && (a.c1 == b.c1).all;
         public static bool operator !=(float2x2 a, float2x2 b) => !(a == b);
-        public override readonly bool Equals(object obj) => obj is float2x2 other && this == other;
+        public override readonly bool Equals(object? obj) => obj is float2x2 other && this == other;
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1);
 
-        #endregion
-
+        #endregion Equality
         #region Conversion
 
         public override readonly string ToString() => $"float2x2({c0.x}, {c1.x},  {c0.y}, {c1.y})";
 
-        // Conversion to float3x3 (adds identity row/column)
-        //public static implicit operator float3x3(float2x2 m) => new float3x3(
-        //    m.c0.x, m.c1.x, 0f,
-        //    m.c0.y, m.c1.y, 0f,
-        //    0f, 0f, 1f
-        //);
+        public static implicit operator float3x3(float2x2 m) => new float3x3(
+            m.c0.x, m.c1.x, 0f,
+            m.c0.y, m.c1.y, 0f,
+            0f, 0f, 1f
+        );
 
-        //// Conversion to float4x4
-        //public static implicit operator float4x4(float2x2 m) => new float4x4(
-        //    m.c0.x, m.c1.x, 0f, 0f,
-        //    m.c0.y, m.c1.y, 0f, 0f,
-        //    0f, 0f, 1f, 0f,
-        //    0f, 0f, 0f, 1f
-        //);
+        public static implicit operator float4x4(float2x2 m) => new float4x4(
+            m.c0.x, m.c1.x, 0f, 0f,
+            m.c0.y, m.c1.y, 0f, 0f,
+            0f, 0f, 1f, 0f,
+            0f, 0f, 0f, 1f
+        );
 
-        #endregion
+        #endregion Conversion
     }
 }
