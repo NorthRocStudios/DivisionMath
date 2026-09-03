@@ -5,6 +5,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>DivisionEngine</RootNamespace>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Division Math</Title>
+    <Version>0.1.0</Version>
+    <Authors>Rex Woodfield</Authors>
+    <Company>NorthRoc Studios</Company>
+    <Description>A math library built for seamless C# to HLSL translation. Functions identically to HLSL math operations.</Description>
+    <RepositoryUrl>https://github.com/NorthRocStudios/DivisionMath</RepositoryUrl>
+    <PackageTags>math; gpu; shader; translate; compile</PackageTags>
+    <PackageId>NorthRoc.$(AssemblyName)</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +29,13 @@
     <Folder Include="MathLib\Matrices\half\" />
     <Folder Include="MathLib\Matrices\int\" />
     <Folder Include="MathLib\Matrices\uint\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
