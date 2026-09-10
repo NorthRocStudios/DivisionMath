@@ -24,12 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MathLib\Matrices\bool\" />
-    <Folder Include="MathLib\Matrices\half\" />
-    <Folder Include="MathLib\Matrices\uint\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
