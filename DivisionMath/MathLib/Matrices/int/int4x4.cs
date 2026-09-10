@@ -11,8 +11,8 @@ namespace DivisionEngine.MathLib.Matrices
 {
     /// <summary>
     /// Represents a 4x4 integer matrix (4 rows, 4 columns) in column-major order (matching HLSL conventions).
-    /// <remarks>This is the most commonly used matrix for 3D transformations.</remarks>
     /// </summary>
+    /// <remarks>This is the most commonly used matrix for 3D transformations.</remarks>
     [StructLayout(LayoutKind.Sequential)]
     public struct int4x4
     {
