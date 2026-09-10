@@ -1,4 +1,11 @@
-﻿namespace DivisionEngine.MathLib
+﻿//
+// Copyright (c) 2026 Rex Woodfield and DivisionMath contributors
+//
+// This file is part of DivisionMath and is subject to the terms
+// of the DivisionMath License. See the LICENSE.txt file in the
+// project root for full license terms.
+//
+namespace DivisionEngine.MathLib
 {
     public partial struct half4
     {
