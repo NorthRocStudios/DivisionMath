@@ -4,7 +4,6 @@
 
 [![NuGet](https://img.shields.io/nuget/v/NorthRoc.DivisionMath?label=NuGet&logo=nuget)](https://www.nuget.org/packages/NorthRoc.DivisionMath/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/NorthRoc.DivisionMath?label=Downloads&logo=nuget)](https://www.nuget.org/packages/NorthRoc.DivisionMath/)
-[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-ea4aaa?style=flat&logo=githubsponsors&logoColor=white)](https://github.com/sponsors/Rex-J-W)
 
 </div>
 
