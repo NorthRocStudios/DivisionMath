@@ -1,11 +1,7 @@
-<div align="left">
-
 # DivisionMath
 
 [![NuGet](https://img.shields.io/nuget/v/NorthRoc.DivisionMath?label=NuGet&logo=nuget)](https://www.nuget.org/packages/NorthRoc.DivisionMath/)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/NorthRoc.DivisionMath?label=Downloads&logo=nuget)](https://www.nuget.org/packages/NorthRoc.DivisionMath/)
-
-</div>
 
 **A cross-platform math library for CPU and GPU that uses the same code everywhere.**
 
