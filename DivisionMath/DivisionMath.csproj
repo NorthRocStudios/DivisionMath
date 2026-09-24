@@ -12,13 +12,13 @@
     <Company>NorthRoc Studios</Company>
     <Description>A math library built for seamless C# to HLSL translation. Functions identically to HLSL math operations.</Description>
     <RepositoryUrl>https://github.com/NorthRocStudios/DivisionMath</RepositoryUrl>
-    <PackageTags>math; gpu; shader; translate; compile</PackageTags>
+    <PackageTags>math;gpu;shader;translate;compile;hlsl;cpu;csharp</PackageTags>
     <PackageId>NorthRoc.$(AssemblyName)</PackageId>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <SignAssembly>False</SignAssembly>
-    <PackageReleaseNotes>Added int, uint, double, boolean, and half matrices</PackageReleaseNotes>
+    <PackageReleaseNotes>Added documentation and updated README</PackageReleaseNotes>
     <Copyright>Copyright (c) 2026 Rex Woodfield and NorthRoc Studios contributors</Copyright>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
