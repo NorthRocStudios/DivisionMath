@@ -13,50 +13,282 @@ namespace DivisionEngine.MathLib
     {
         #region float
 
+        /// <summary>
+        /// Returns the component-wise absolute value of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the absolute value of each component of <paramref name="x"/>.</returns>
         public static float3 abs(float3 x) => new float3(float.Abs(x.x), float.Abs(x.y), float.Abs(x.z));
+        /// <summary>
+        /// Clamps each component of the specified vector to the corresponding component of the minimum and maximum vectors.
+        /// </summary>
+        /// <param name="x">The vector to clamp.</param>
+        /// <param name="min">The vector containing the minimum values for each component.</param>
+        /// <param name="max">The vector containing the maximum values for each component.</param>
+        /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
         public static float3 clamp(float3 x, float3 min, float3 max) => new float3(float.Clamp(x.x, min.x, max.x), float.Clamp(x.y, min.y, max.y), float.Clamp(x.z, min.z, max.z));
+        /// <summary>
+        /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
+        /// </summary>
+        /// <param name="x">The vector to clamp.</param>
+        /// <param name="min">The minimum value applied to each component.</param>
+        /// <param name="max">The maximum value applied to each component.</param>
+        /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
         public static float3 clamp(float3 x, float min, float max) => new float3(float.Clamp(x.x, min, max), float.Clamp(x.y, min, max), float.Clamp(x.z, min, max));
+        /// <summary>
+        /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <param name="t">The interpolation factor, typically in the range [0, 1].</param>
+        /// <returns>The component-wise linear interpolation between <paramref name="x"/> and <paramref name="y"/> using <paramref name="t"/>.</returns>
         public static float3 lerp(float3 x, float3 y, float t) => new float3(float.Lerp(x.x, y.x, t), float.Lerp(x.y, y.y, t), float.Lerp(x.z, y.z, t));
+        /// <summary>
+        /// Performs a component-wise linear interpolation between two vectors using a per-component interpolation factor vector.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <param name="t">The per-component interpolation factors, typically in the range [0, 1].</param>
+        /// <returns>The component-wise linear interpolation between <paramref name="x"/> and <paramref name="y"/> using <paramref name="t"/>.</returns>
         public static float3 lerp(float3 x, float3 y, float3 t) => new float3(float.Lerp(x.x, y.x, t.x), float.Lerp(x.y, y.y, t.y), float.Lerp(x.z, y.z, t.z));
+        /// <summary>
+        /// Selects the greater of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise maximum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static float3 max(float3 x, float3 y) => new float3(float.Max(x.x, y.x), float.Max(x.y, y.y), float.Max(x.z, y.z));
+        /// <summary>
+        /// Selects the greater of each component of a vector and a scalar value.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <param name="y">The scalar value to compare against each component.</param>
+        /// <returns>A vector containing the component-wise maximum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static float3 max(float3 x, float y) => new float3(float.Max(x.x, y), float.Max(x.y, y), float.Max(x.z, y));
+        /// <summary>
+        /// Selects the lesser of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static float3 min(float3 x, float3 y) => new float3(float.Min(x.x, y.x), float.Min(x.y, y.y), float.Min(x.z, y.z));
+        /// <summary>
+        /// Selects the lesser of each component of a vector and a scalar value.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <param name="y">The scalar value to compare against each component.</param>
+        /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static float3 min(float3 x, float y) => new float3(float.Min(x.x, y), float.Min(x.y, y), float.Min(x.z, y));
+        /// <summary>
+        /// Clamps each component of the specified vector to the range [0, 1].
+        /// </summary>
+        /// <param name="x">The vector to saturate.</param>
+        /// <returns>A vector with each component clamped to the range [0, 1].</returns>
         public static float3 saturate(float3 x) => new float3(float.Clamp(x.x, 0f, 1f), float.Clamp(x.y, 0f, 1f), float.Clamp(x.z, 0f, 1f));
+        /// <summary>
+        /// Returns the sign of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector where each component is -1, 0, or 1 depending on the sign of the corresponding component of <paramref name="x"/>.</returns>
         public static float3 sign(float3 x) => new float3(float.Sign(x.x), float.Sign(x.y), float.Sign(x.z));
+        /// <summary>
+        /// Returns the ceiling of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise ceiling of <paramref name="x"/>.</returns>
         public static float3 ceil(float3 x) => new float3(float.Ceiling(x.x), float.Ceiling(x.y), float.Ceiling(x.z));
+        /// <summary>
+        /// Returns the floor of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise floor of <paramref name="x"/>.</returns>
         public static float3 floor(float3 x) => new float3(float.Floor(x.x), float.Floor(x.y), float.Floor(x.z));
+        /// <summary>
+        /// Rounds each component of the specified vector to the nearest integer.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise rounded values of <paramref name="x"/>.</returns>
         public static float3 round(float3 x) => new float3(float.Round(x.x), float.Round(x.y), float.Round(x.z));
+        /// <summary>
+        /// Truncates each component of the specified vector toward zero to the nearest integer.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise integral parts of <paramref name="x"/>.</returns>
         public static float3 trunc(float3 x) => new float3(float.Truncate(x.x), float.Truncate(x.y), float.Truncate(x.z));
+        /// <summary>
+        /// Returns the fractional part of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise fractional parts of <paramref name="x"/>.</returns>
         public static float3 frac(float3 x) => new float3(x.x - float.Floor(x.x), x.y - float.Floor(x.y), x.z - float.Floor(x.z));
+        /// <summary>
+        /// Returns the base-e exponential of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-e exponentials of <paramref name="x"/>.</returns>
         public static float3 exp(float3 x) => new float3(float.Exp(x.x), float.Exp(x.y), float.Exp(x.z));
+        /// <summary>
+        /// Returns the base-2 exponential of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-2 exponentials of <paramref name="x"/>.</returns>
         public static float3 exp2(float3 x) => new float3(float.Exp2(x.x), float.Exp2(x.y), float.Exp2(x.z));
+        /// <summary>
+        /// Returns the natural logarithm of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise natural logarithms of <paramref name="x"/>.</returns>
         public static float3 log(float3 x) => new float3(float.Log(x.x), float.Log(x.y), float.Log(x.z));
+        /// <summary>
+        /// Returns the base-2 logarithm of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-2 logarithms of <paramref name="x"/>.</returns>
         public static float3 log2(float3 x) => new float3(float.Log2(x.x), float.Log2(x.y), float.Log2(x.z));
+        /// <summary>
+        /// Returns the base-10 logarithm of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-10 logarithms of <paramref name="x"/>.</returns>
         public static float3 log10(float3 x) => new float3(float.Log10(x.x), float.Log10(x.y), float.Log10(x.z));
+        /// <summary>
+        /// Raises each component of a vector to the power of the corresponding component of another vector.
+        /// </summary>
+        /// <param name="x">The base vector.</param>
+        /// <param name="y">The exponent vector.</param>
+        /// <returns>A vector containing the component-wise power of <paramref name="x"/> raised to <paramref name="y"/>.</returns>
         public static float3 pow(float3 x, float3 y) => new float3(float.Pow(x.x, y.x), float.Pow(x.y, y.y), float.Pow(x.z, y.z));
+        /// <summary>
+        /// Raises each component of a vector to the power of a scalar value.
+        /// </summary>
+        /// <param name="x">The base vector.</param>
+        /// <param name="y">The scalar exponent.</param>
+        /// <returns>A vector containing the component-wise power of <paramref name="x"/> raised to <paramref name="y"/>.</returns>
         public static float3 pow(float3 x, float y) => new float3(float.Pow(x.x, y), float.Pow(x.y, y), float.Pow(x.z, y));
+        /// <summary>
+        /// Returns the reciprocal of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise reciprocals of <paramref name="x"/>.</returns>
         public static float3 rcp(float3 x) => new float3(1f / x.x, 1f / x.y, 1f / x.z);
+        /// <summary>
+        /// Returns the reciprocal of the square root of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise reciprocal square roots of <paramref name="x"/>.</returns>
         public static float3 rsqrt(float3 x) => new float3(1f / float.Sqrt(x.x), 1f / float.Sqrt(x.y), 1f / float.Sqrt(x.z));
+        /// <summary>
+        /// Returns the square root of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise square roots of <paramref name="x"/>.</returns>
         public static float3 sqrt(float3 x) => new float3(float.Sqrt(x.x), float.Sqrt(x.y), float.Sqrt(x.z));
+        /// <summary>
+        /// Returns the arccosine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector, whose components should be in the range [-1, 1].</param>
+        /// <returns>A vector containing the component-wise arccosines of <paramref name="x"/>, in radians.</returns>
         public static float3 acos(float3 x) => new float3(float.Acos(x.x), float.Acos(x.y), float.Acos(x.z));
+        /// <summary>
+        /// Returns the arcsine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector, whose components should be in the range [-1, 1].</param>
+        /// <returns>A vector containing the component-wise arcsines of <paramref name="x"/>, in radians.</returns>
         public static float3 asin(float3 x) => new float3(float.Asin(x.x), float.Asin(x.y), float.Asin(x.z));
+        /// <summary>
+        /// Returns the arctangent of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise arctangents of <paramref name="x"/>, in radians.</returns>
         public static float3 atan(float3 x) => new float3(float.Atan(x.x), float.Atan(x.y), float.Atan(x.z));
+        /// <summary>
+        /// Returns the component-wise arctangent of two vectors, using the signs of both to determine the quadrant of each result.
+        /// </summary>
+        /// <param name="y">The y-coordinate vector.</param>
+        /// <param name="x">The x-coordinate vector.</param>
+        /// <returns>A vector containing the component-wise arctangents of <paramref name="y"/> / <paramref name="x"/>, in radians.</returns>
         public static float3 atan2(float3 y, float3 x) => new float3(float.Atan2(y.x, x.x), float.Atan2(y.y, x.y), float.Atan2(y.z, x.z));
+        /// <summary>
+        /// Returns the cosine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector of angles, in radians.</param>
+        /// <returns>A vector containing the component-wise cosines of <paramref name="x"/>.</returns>
         public static float3 cos(float3 x) => new float3(float.Cos(x.x), float.Cos(x.y), float.Cos(x.z));
+        /// <summary>
+        /// Returns the sine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector of angles, in radians.</param>
+        /// <returns>A vector containing the component-wise sines of <paramref name="x"/>.</returns>
         public static float3 sin(float3 x) => new float3(float.Sin(x.x), float.Sin(x.y), float.Sin(x.z));
+        /// <summary>
+        /// Returns the tangent of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector of angles, in radians.</param>
+        /// <returns>A vector containing the component-wise tangents of <paramref name="x"/>.</returns>
         public static float3 tan(float3 x) => new float3(float.Tan(x.x), float.Tan(x.y), float.Tan(x.z));
+        /// <summary>
+        /// Converts each component of the specified vector from degrees to radians.
+        /// </summary>
+        /// <param name="x">The vector of angles in degrees.</param>
+        /// <returns>A vector containing the component-wise angles of <paramref name="x"/> converted to radians.</returns>
         public static float3 radians(float3 x) => new float3(float.DegreesToRadians(x.x), float.DegreesToRadians(x.y), float.DegreesToRadians(x.z));
+        /// <summary>
+        /// Converts each component of the specified vector from radians to degrees.
+        /// </summary>
+        /// <param name="x">The vector of angles in radians.</param>
+        /// <returns>A vector containing the component-wise angles of <paramref name="x"/> converted to degrees.</returns>
         public static float3 degrees(float3 x) => new float3(float.RadiansToDegrees(x.x), float.RadiansToDegrees(x.y), float.RadiansToDegrees(x.z));
+        /// <summary>
+        /// Determines whether each component of the specified vector is finite.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A boolean vector where each component is <see langword="true"/> if the corresponding component of <paramref name="x"/> is finite.</returns>
         public static bool3 isfinite(float3 x) => new bool3(float.IsFinite(x.x), float.IsFinite(x.y), float.IsFinite(x.z));
+        /// <summary>
+        /// Determines whether each component of the specified vector is an infinity.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A boolean vector where each component is <see langword="true"/> if the corresponding component of <paramref name="x"/> is positive or negative infinity.</returns>
         public static bool3 isinf(float3 x) => new bool3(float.IsInfinity(x.x), float.IsInfinity(x.y), float.IsInfinity(x.z));
+        /// <summary>
+        /// Determines whether each component of the specified vector is Not-a-Number (NaN).
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A boolean vector where each component is <see langword="true"/> if the corresponding component of <paramref name="x"/> is NaN.</returns>
         public static bool3 isnan(float3 x) => new bool3(float.IsNaN(x.x), float.IsNaN(x.y), float.IsNaN(x.z));
 
         // Vector geometry
+        /// <summary>
+        /// Computes the dot product of two vectors.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <returns>The scalar dot product of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static float dot(float3 x, float3 y) => x.x * y.x + x.y * y.y + x.z * y.z;
+        /// <summary>
+        /// Computes the length (magnitude) of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The length of <paramref name="x"/>.</returns>
         public static float length(float3 x) => float.Sqrt(dot(x, x));
+        /// <summary>
+        /// Computes the squared length (magnitude) of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
         public static float lengthsq(float3 x) => dot(x, x);
+        /// <summary>
+        /// Computes the distance between two vectors.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <returns>The distance between <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static float distance(float3 x, float3 y) => length(x - y);
+        /// <summary>
+        /// Returns a normalized (unit length) version of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A unit-length vector in the same direction as <paramref name="x"/>, or <see cref="float3.zero"/> if <paramref name="x"/> has zero length.</returns>
         public static float3 normalize(float3 x)
         {
             float len = length(x);
@@ -64,11 +296,32 @@ namespace DivisionEngine.MathLib
         }
 
         // Component reduction
+        /// <summary>
+        /// Returns the smallest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
         public static float cmin(float3 x) => float.Min(x.x, float.Min(x.y, x.z));
+        /// <summary>
+        /// Returns the largest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
         public static float cmax(float3 x) => float.Max(x.x, float.Max(x.y, x.z));
+        /// <summary>
+        /// Returns the sum of all components of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
         public static float csum(float3 x) => x.x + x.y + x.z;
 
         // Cross product (3D only)
+        /// <summary>
+        /// Computes the 3D cross product of two vectors.
+        /// </summary>
+        /// <param name="a">The first vector.</param>
+        /// <param name="b">The second vector.</param>
+        /// <returns>The cross product of <paramref name="a"/> and <paramref name="b"/>, which is perpendicular to both input vectors.</returns>
         public static float3 cross(float3 a, float3 b) => new float3(
             a.y * b.z - a.z * b.y,
             a.z * b.x - a.x * b.z,
@@ -76,21 +329,55 @@ namespace DivisionEngine.MathLib
         );
 
         // Reflection and refraction
+        /// <summary>
+        /// Computes the reflection of an incident vector around a normal vector.
+        /// </summary>
+        /// <param name="i">The incident vector.</param>
+        /// <param name="n">The normal vector, which is assumed to be normalized.</param>
+        /// <returns>The reflected vector.</returns>
         public static float3 reflect(float3 i, float3 n) => i - 2f * dot(n, i) * n;
+        /// <summary>
+        /// Computes the refraction of an incident vector through a surface with the specified normal and ratio of indices of refraction.
+        /// </summary>
+        /// <param name="i">The incident vector, which is assumed to be normalized.</param>
+        /// <param name="n">The normal vector, which is assumed to be normalized.</param>
+        /// <param name="eta">The ratio of indices of refraction between the two media.</param>
+        /// <returns>The refracted vector, or <see cref="float3.zero"/> if total internal reflection occurs.</returns>
         public static float3 refract(float3 i, float3 n, float eta)
         {
             float ndoti = dot(n, i);
             float k = 1f - eta * eta * (1f - ndoti * ndoti);
             return k < 0 ? float3.zero : eta * i - (eta * ndoti + float.Sqrt(k)) * n;
         }
+        /// <summary>
+        /// Returns a vector facing the same direction as the normal, based on the sign of the dot product with the incident vector.
+        /// </summary>
+        /// <param name="n">The normal vector.</param>
+        /// <param name="i">The incident vector.</param>
+        /// <param name="ng">The geometric normal vector.</param>
+        /// <returns><paramref name="n"/> if the dot product of <paramref name="ng"/> and <paramref name="i"/> is negative; otherwise, the negation of <paramref name="n"/>.</returns>
         public static float3 faceforward(float3 n, float3 i, float3 ng) => dot(ng, i) < 0 ? n : -n;
 
         // Smoothstep
+        /// <summary>
+        /// Performs a component-wise smooth Hermite interpolation between two edge vectors.
+        /// </summary>
+        /// <param name="edge0">The vector of lower edges of the transition.</param>
+        /// <param name="edge1">The vector of upper edges of the transition.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise smoothstep interpolation results.</returns>
         public static float3 smoothstep(float3 edge0, float3 edge1, float3 x)
         {
             float3 t = saturate((x - edge0) / (edge1 - edge0));
             return t * t * (new float3(3f, 3f, 3f) - 2f * t);
         }
+        /// <summary>
+        /// Performs a component-wise smooth Hermite interpolation between two scalar edges.
+        /// </summary>
+        /// <param name="edge0">The lower edge of the transition.</param>
+        /// <param name="edge1">The upper edge of the transition.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise smoothstep interpolation results.</returns>
         public static float3 smoothstep(float edge0, float edge1, float3 x)
         {
             float3 t = saturate((x - edge0) / (edge1 - edge0));
@@ -98,10 +385,28 @@ namespace DivisionEngine.MathLib
         }
 
         // Step
+        /// <summary>
+        /// Returns 0 or 1 for each component by comparing against the corresponding component of an edge vector.
+        /// </summary>
+        /// <param name="edge">The vector of edge values.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector where each component is 1 if the corresponding component of <paramref name="x"/> is greater than or equal to that of <paramref name="edge"/>, and 0 otherwise.</returns>
         public static float3 step(float3 edge, float3 x) => new float3(x.x >= edge.x ? 1f : 0f, x.y >= edge.y ? 1f : 0f, x.z >= edge.z ? 1f : 0f);
+        /// <summary>
+        /// Returns 0 or 1 for each component by comparing against a scalar edge value.
+        /// </summary>
+        /// <param name="edge">The scalar edge value.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector where each component is 1 if the corresponding component of <paramref name="x"/> is greater than or equal to <paramref name="edge"/>, and 0 otherwise.</returns>
         public static float3 step(float edge, float3 x) => new float3(x.x >= edge ? 1f : 0f, x.y >= edge ? 1f : 0f, x.z >= edge ? 1f : 0f);
 
         // Modf
+        /// <summary>
+        /// Splits each component of the specified vector into its integral and fractional parts.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <param name="intPart">When this method returns, contains the component-wise integral parts of <paramref name="x"/>.</param>
+        /// <returns>A vector containing the component-wise fractional parts of <paramref name="x"/>.</returns>
         public static float3 modf(float3 x, out float3 intPart)
         {
             intPart = trunc(x);
@@ -109,55 +414,294 @@ namespace DivisionEngine.MathLib
         }
 
         // Determinant (for float3x3 matrices - will be useful later)
+        /// <summary>
+        /// Computes the determinant of a 3x3 matrix whose rows (or columns) are the specified vectors.
+        /// </summary>
+        /// <param name="a">The first row (or column) vector.</param>
+        /// <param name="b">The second row (or column) vector.</param>
+        /// <param name="c">The third row (or column) vector.</param>
+        /// <returns>The determinant of the 3x3 matrix formed from <paramref name="a"/>, <paramref name="b"/>, and <paramref name="c"/>.</returns>
         public static float determinant(float3 a, float3 b, float3 c) => dot(a, cross(b, c));
 
         #endregion float
         #region double
 
+        /// <summary>
+        /// Returns the component-wise absolute value of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the absolute value of each component of <paramref name="x"/>.</returns>
         public static double3 abs(double3 x) => new double3(double.Abs(x.x), double.Abs(x.y), double.Abs(x.z));
+        /// <summary>
+        /// Clamps each component of the specified vector to the corresponding component of the minimum and maximum vectors.
+        /// </summary>
+        /// <param name="x">The vector to clamp.</param>
+        /// <param name="min">The vector containing the minimum values for each component.</param>
+        /// <param name="max">The vector containing the maximum values for each component.</param>
+        /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
         public static double3 clamp(double3 x, double3 min, double3 max) => new double3(double.Clamp(x.x, min.x, max.x), double.Clamp(x.y, min.y, max.y), double.Clamp(x.z, min.z, max.z));
+        /// <summary>
+        /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
+        /// </summary>
+        /// <param name="x">The vector to clamp.</param>
+        /// <param name="min">The minimum value applied to each component.</param>
+        /// <param name="max">The maximum value applied to each component.</param>
+        /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
         public static double3 clamp(double3 x, double min, double max) => new double3(double.Clamp(x.x, min, max), double.Clamp(x.y, min, max), double.Clamp(x.z, min, max));
+        /// <summary>
+        /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <param name="t">The interpolation factor, typically in the range [0, 1].</param>
+        /// <returns>The component-wise linear interpolation between <paramref name="x"/> and <paramref name="y"/> using <paramref name="t"/>.</returns>
         public static double3 lerp(double3 x, double3 y, double t) => new double3(double.Lerp(x.x, y.x, t), double.Lerp(x.y, y.y, t), double.Lerp(x.z, y.z, t));
+        /// <summary>
+        /// Performs a component-wise linear interpolation between two vectors using a per-component interpolation factor vector.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <param name="t">The per-component interpolation factors, typically in the range [0, 1].</param>
+        /// <returns>The component-wise linear interpolation between <paramref name="x"/> and <paramref name="y"/> using <paramref name="t"/>.</returns>
         public static double3 lerp(double3 x, double3 y, double3 t) => new double3(double.Lerp(x.x, y.x, t.x), double.Lerp(x.y, y.y, t.y), double.Lerp(x.z, y.z, t.z));
+        /// <summary>
+        /// Selects the greater of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise maximum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static double3 max(double3 x, double3 y) => new double3(double.Max(x.x, y.x), double.Max(x.y, y.y), double.Max(x.z, y.z));
+        /// <summary>
+        /// Selects the greater of each component of a vector and a scalar value.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <param name="y">The scalar value to compare against each component.</param>
+        /// <returns>A vector containing the component-wise maximum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static double3 max(double3 x, double y) => new double3(double.Max(x.x, y), double.Max(x.y, y), double.Max(x.z, y));
+        /// <summary>
+        /// Selects the lesser of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static double3 min(double3 x, double3 y) => new double3(double.Min(x.x, y.x), double.Min(x.y, y.y), double.Min(x.z, y.z));
+        /// <summary>
+        /// Selects the lesser of each component of a vector and a scalar value.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <param name="y">The scalar value to compare against each component.</param>
+        /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static double3 min(double3 x, double y) => new double3(double.Min(x.x, y), double.Min(x.y, y), double.Min(x.z, y));
+        /// <summary>
+        /// Clamps each component of the specified vector to the range [0, 1].
+        /// </summary>
+        /// <param name="x">The vector to saturate.</param>
+        /// <returns>A vector with each component clamped to the range [0, 1].</returns>
         public static double3 saturate(double3 x) => new double3(double.Clamp(x.x, 0.0, 1.0), double.Clamp(x.y, 0.0, 1.0), double.Clamp(x.z, 0.0, 1.0));
+        /// <summary>
+        /// Returns the sign of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector where each component is -1, 0, or 1 depending on the sign of the corresponding component of <paramref name="x"/>.</returns>
         public static double3 sign(double3 x) => new double3(double.Sign(x.x), double.Sign(x.y), double.Sign(x.z));
+        /// <summary>
+        /// Returns the ceiling of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise ceiling of <paramref name="x"/>.</returns>
         public static double3 ceil(double3 x) => new double3(double.Ceiling(x.x), double.Ceiling(x.y), double.Ceiling(x.z));
+        /// <summary>
+        /// Returns the floor of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise floor of <paramref name="x"/>.</returns>
         public static double3 floor(double3 x) => new double3(double.Floor(x.x), double.Floor(x.y), double.Floor(x.z));
+        /// <summary>
+        /// Rounds each component of the specified vector to the nearest integer.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise rounded values of <paramref name="x"/>.</returns>
         public static double3 round(double3 x) => new double3(double.Round(x.x), double.Round(x.y), double.Round(x.z));
+        /// <summary>
+        /// Truncates each component of the specified vector toward zero to the nearest integer.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise integral parts of <paramref name="x"/>.</returns>
         public static double3 trunc(double3 x) => new double3(double.Truncate(x.x), double.Truncate(x.y), double.Truncate(x.z));
+        /// <summary>
+        /// Returns the fractional part of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise fractional parts of <paramref name="x"/>.</returns>
         public static double3 frac(double3 x) => new double3(x.x - double.Floor(x.x), x.y - double.Floor(x.y), x.z - double.Floor(x.z));
+        /// <summary>
+        /// Returns the base-e exponential of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-e exponentials of <paramref name="x"/>.</returns>
         public static double3 exp(double3 x) => new double3(double.Exp(x.x), double.Exp(x.y), double.Exp(x.z));
+        /// <summary>
+        /// Returns the base-2 exponential of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-2 exponentials of <paramref name="x"/>.</returns>
         public static double3 exp2(double3 x) => new double3(double.Exp2(x.x), double.Exp2(x.y), double.Exp2(x.z));
+        /// <summary>
+        /// Returns the natural logarithm of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise natural logarithms of <paramref name="x"/>.</returns>
         public static double3 log(double3 x) => new double3(double.Log(x.x), double.Log(x.y), double.Log(x.z));
+        /// <summary>
+        /// Returns the base-2 logarithm of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-2 logarithms of <paramref name="x"/>.</returns>
         public static double3 log2(double3 x) => new double3(double.Log2(x.x), double.Log2(x.y), double.Log2(x.z));
+        /// <summary>
+        /// Returns the base-10 logarithm of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise base-10 logarithms of <paramref name="x"/>.</returns>
         public static double3 log10(double3 x) => new double3(double.Log10(x.x), double.Log10(x.y), double.Log10(x.z));
+        /// <summary>
+        /// Raises each component of a vector to the power of the corresponding component of another vector.
+        /// </summary>
+        /// <param name="x">The base vector.</param>
+        /// <param name="y">The exponent vector.</param>
+        /// <returns>A vector containing the component-wise power of <paramref name="x"/> raised to <paramref name="y"/>.</returns>
         public static double3 pow(double3 x, double3 y) => new double3(double.Pow(x.x, y.x), double.Pow(x.y, y.y), double.Pow(x.z, y.z));
+        /// <summary>
+        /// Raises each component of a vector to the power of a scalar value.
+        /// </summary>
+        /// <param name="x">The base vector.</param>
+        /// <param name="y">The scalar exponent.</param>
+        /// <returns>A vector containing the component-wise power of <paramref name="x"/> raised to <paramref name="y"/>.</returns>
         public static double3 pow(double3 x, double y) => new double3(double.Pow(x.x, y), double.Pow(x.y, y), double.Pow(x.z, y));
+        /// <summary>
+        /// Returns the reciprocal of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise reciprocals of <paramref name="x"/>.</returns>
         public static double3 rcp(double3 x) => new double3(1.0 / x.x, 1.0 / x.y, 1.0 / x.z);
+        /// <summary>
+        /// Returns the reciprocal of the square root of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise reciprocal square roots of <paramref name="x"/>.</returns>
         public static double3 rsqrt(double3 x) => new double3(1.0 / double.Sqrt(x.x), 1.0 / double.Sqrt(x.y), 1.0 / double.Sqrt(x.z));
+        /// <summary>
+        /// Returns the square root of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise square roots of <paramref name="x"/>.</returns>
         public static double3 sqrt(double3 x) => new double3(double.Sqrt(x.x), double.Sqrt(x.y), double.Sqrt(x.z));
+        /// <summary>
+        /// Returns the arccosine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector, whose components should be in the range [-1, 1].</param>
+        /// <returns>A vector containing the component-wise arccosines of <paramref name="x"/>, in radians.</returns>
         public static double3 acos(double3 x) => new double3(double.Acos(x.x), double.Acos(x.y), double.Acos(x.z));
+        /// <summary>
+        /// Returns the arcsine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector, whose components should be in the range [-1, 1].</param>
+        /// <returns>A vector containing the component-wise arcsines of <paramref name="x"/>, in radians.</returns>
         public static double3 asin(double3 x) => new double3(double.Asin(x.x), double.Asin(x.y), double.Asin(x.z));
+        /// <summary>
+        /// Returns the arctangent of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise arctangents of <paramref name="x"/>, in radians.</returns>
         public static double3 atan(double3 x) => new double3(double.Atan(x.x), double.Atan(x.y), double.Atan(x.z));
+        /// <summary>
+        /// Returns the component-wise arctangent of two vectors, using the signs of both to determine the quadrant of each result.
+        /// </summary>
+        /// <param name="y">The y-coordinate vector.</param>
+        /// <param name="x">The x-coordinate vector.</param>
+        /// <returns>A vector containing the component-wise arctangents of <paramref name="y"/> / <paramref name="x"/>, in radians.</returns>
         public static double3 atan2(double3 y, double3 x) => new double3(double.Atan2(y.x, x.x), double.Atan2(y.y, x.y), double.Atan2(y.z, x.z));
+        /// <summary>
+        /// Returns the cosine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector of angles, in radians.</param>
+        /// <returns>A vector containing the component-wise cosines of <paramref name="x"/>.</returns>
         public static double3 cos(double3 x) => new double3(double.Cos(x.x), double.Cos(x.y), double.Cos(x.z));
+        /// <summary>
+        /// Returns the sine of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector of angles, in radians.</param>
+        /// <returns>A vector containing the component-wise sines of <paramref name="x"/>.</returns>
         public static double3 sin(double3 x) => new double3(double.Sin(x.x), double.Sin(x.y), double.Sin(x.z));
+        /// <summary>
+        /// Returns the tangent of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector of angles, in radians.</param>
+        /// <returns>A vector containing the component-wise tangents of <paramref name="x"/>.</returns>
         public static double3 tan(double3 x) => new double3(double.Tan(x.x), double.Tan(x.y), double.Tan(x.z));
+        /// <summary>
+        /// Converts each component of the specified vector from degrees to radians.
+        /// </summary>
+        /// <param name="x">The vector of angles in degrees.</param>
+        /// <returns>A vector containing the component-wise angles of <paramref name="x"/> converted to radians.</returns>
         public static double3 radians(double3 x) => new double3(double.DegreesToRadians(x.x), double.DegreesToRadians(x.y), double.DegreesToRadians(x.z));
+        /// <summary>
+        /// Converts each component of the specified vector from radians to degrees.
+        /// </summary>
+        /// <param name="x">The vector of angles in radians.</param>
+        /// <returns>A vector containing the component-wise angles of <paramref name="x"/> converted to degrees.</returns>
         public static double3 degrees(double3 x) => new double3(double.RadiansToDegrees(x.x), double.RadiansToDegrees(x.y), double.RadiansToDegrees(x.z));
+        /// <summary>
+        /// Determines whether each component of the specified vector is finite.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A boolean vector where each component is <see langword="true"/> if the corresponding component of <paramref name="x"/> is finite.</returns>
         public static bool3 isfinite(double3 x) => new bool3(double.IsFinite(x.x), double.IsFinite(x.y), double.IsFinite(x.z));
+        /// <summary>
+        /// Determines whether each component of the specified vector is an infinity.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A boolean vector where each component is <see langword="true"/> if the corresponding component of <paramref name="x"/> is positive or negative infinity.</returns>
         public static bool3 isinf(double3 x) => new bool3(double.IsInfinity(x.x), double.IsInfinity(x.y), double.IsInfinity(x.z));
+        /// <summary>
+        /// Determines whether each component of the specified vector is Not-a-Number (NaN).
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A boolean vector where each component is <see langword="true"/> if the corresponding component of <paramref name="x"/> is NaN.</returns>
         public static bool3 isnan(double3 x) => new bool3(double.IsNaN(x.x), double.IsNaN(x.y), double.IsNaN(x.z));
 
         // Vector geometry
+        /// <summary>
+        /// Computes the dot product of two vectors.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <returns>The scalar dot product of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static double dot(double3 x, double3 y) => x.x * y.x + x.y * y.y + x.z * y.z;
+        /// <summary>
+        /// Computes the length (magnitude) of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The length of <paramref name="x"/>.</returns>
         public static double length(double3 x) => double.Sqrt(dot(x, x));
+        /// <summary>
+        /// Computes the squared length (magnitude) of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
         public static double lengthsq(double3 x) => dot(x, x);
+        /// <summary>
+        /// Computes the distance between two vectors.
+        /// </summary>
+        /// <param name="x">The first vector.</param>
+        /// <param name="y">The second vector.</param>
+        /// <returns>The distance between <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static double distance(double3 x, double3 y) => length(x - y);
+        /// <summary>
+        /// Returns a normalized (unit length) version of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A unit-length vector in the same direction as <paramref name="x"/>, or <see cref="double3.zero"/> if <paramref name="x"/> has zero length.</returns>
         public static double3 normalize(double3 x)
         {
             double len = length(x);
@@ -165,11 +709,32 @@ namespace DivisionEngine.MathLib
         }
 
         // Component reduction
+        /// <summary>
+        /// Returns the smallest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
         public static double cmin(double3 x) => double.Min(x.x, double.Min(x.y, x.z));
+        /// <summary>
+        /// Returns the largest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
         public static double cmax(double3 x) => double.Max(x.x, double.Max(x.y, x.z));
+        /// <summary>
+        /// Returns the sum of all components of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
         public static double csum(double3 x) => x.x + x.y + x.z;
 
         // Cross product
+        /// <summary>
+        /// Computes the 3D cross product of two vectors.
+        /// </summary>
+        /// <param name="a">The first vector.</param>
+        /// <param name="b">The second vector.</param>
+        /// <returns>The cross product of <paramref name="a"/> and <paramref name="b"/>, which is perpendicular to both input vectors.</returns>
         public static double3 cross(double3 a, double3 b) => new double3(
             a.y * b.z - a.z * b.y,
             a.z * b.x - a.x * b.z,
@@ -177,21 +742,55 @@ namespace DivisionEngine.MathLib
         );
 
         // Reflection and refraction
+        /// <summary>
+        /// Computes the reflection of an incident vector around a normal vector.
+        /// </summary>
+        /// <param name="i">The incident vector.</param>
+        /// <param name="n">The normal vector, which is assumed to be normalized.</param>
+        /// <returns>The reflected vector.</returns>
         public static double3 reflect(double3 i, double3 n) => i - 2.0 * dot(n, i) * n;
+        /// <summary>
+        /// Computes the refraction of an incident vector through a surface with the specified normal and ratio of indices of refraction.
+        /// </summary>
+        /// <param name="i">The incident vector, which is assumed to be normalized.</param>
+        /// <param name="n">The normal vector, which is assumed to be normalized.</param>
+        /// <param name="eta">The ratio of indices of refraction between the two media.</param>
+        /// <returns>The refracted vector, or <see cref="double3.zero"/> if total internal reflection occurs.</returns>
         public static double3 refract(double3 i, double3 n, double eta)
         {
             double ndoti = dot(n, i);
             double k = 1.0 - eta * eta * (1.0 - ndoti * ndoti);
             return k < 0 ? double3.zero : eta * i - (eta * ndoti + double.Sqrt(k)) * n;
         }
+        /// <summary>
+        /// Returns a vector facing the same direction as the normal, based on the sign of the dot product with the incident vector.
+        /// </summary>
+        /// <param name="n">The normal vector.</param>
+        /// <param name="i">The incident vector.</param>
+        /// <param name="ng">The geometric normal vector.</param>
+        /// <returns><paramref name="n"/> if the dot product of <paramref name="ng"/> and <paramref name="i"/> is negative; otherwise, the negation of <paramref name="n"/>.</returns>
         public static double3 faceforward(double3 n, double3 i, double3 ng) => dot(ng, i) < 0 ? n : -n;
 
         // Smoothstep
+        /// <summary>
+        /// Performs a component-wise smooth Hermite interpolation between two edge vectors.
+        /// </summary>
+        /// <param name="edge0">The vector of lower edges of the transition.</param>
+        /// <param name="edge1">The vector of upper edges of the transition.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise smoothstep interpolation results.</returns>
         public static double3 smoothstep(double3 edge0, double3 edge1, double3 x)
         {
             double3 t = saturate((x - edge0) / (edge1 - edge0));
             return t * t * (new double3(3.0, 3.0, 3.0) - 2.0 * t);
         }
+        /// <summary>
+        /// Performs a component-wise smooth Hermite interpolation between two scalar edges.
+        /// </summary>
+        /// <param name="edge0">The lower edge of the transition.</param>
+        /// <param name="edge1">The upper edge of the transition.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the component-wise smoothstep interpolation results.</returns>
         public static double3 smoothstep(double edge0, double edge1, double3 x)
         {
             double3 t = saturate((x - edge0) / (edge1 - edge0));
@@ -199,10 +798,28 @@ namespace DivisionEngine.MathLib
         }
 
         // Step
+        /// <summary>
+        /// Returns 0 or 1 for each component by comparing against the corresponding component of an edge vector.
+        /// </summary>
+        /// <param name="edge">The vector of edge values.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector where each component is 1 if the corresponding component of <paramref name="x"/> is greater than or equal to that of <paramref name="edge"/>, and 0 otherwise.</returns>
         public static double3 step(double3 edge, double3 x) => new double3(x.x >= edge.x ? 1.0 : 0.0, x.y >= edge.y ? 1.0 : 0.0, x.z >= edge.z ? 1.0 : 0.0);
+        /// <summary>
+        /// Returns 0 or 1 for each component by comparing against a scalar edge value.
+        /// </summary>
+        /// <param name="edge">The scalar edge value.</param>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector where each component is 1 if the corresponding component of <paramref name="x"/> is greater than or equal to <paramref name="edge"/>, and 0 otherwise.</returns>
         public static double3 step(double edge, double3 x) => new double3(x.x >= edge ? 1.0 : 0.0, x.y >= edge ? 1.0 : 0.0, x.z >= edge ? 1.0 : 0.0);
 
         // Modf
+        /// <summary>
+        /// Splits each component of the specified vector into its integral and fractional parts.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <param name="intPart">When this method returns, contains the component-wise integral parts of <paramref name="x"/>.</param>
+        /// <returns>A vector containing the component-wise fractional parts of <paramref name="x"/>.</returns>
         public static double3 modf(double3 x, out double3 intPart)
         {
             intPart = trunc(x);
@@ -210,6 +827,13 @@ namespace DivisionEngine.MathLib
         }
 
         // Determinant
+        /// <summary>
+        /// Computes the determinant of a 3x3 matrix whose rows (or columns) are the specified vectors.
+        /// </summary>
+        /// <param name="a">The first row (or column) vector.</param>
+        /// <param name="b">The second row (or column) vector.</param>
+        /// <param name="c">The third row (or column) vector.</param>
+        /// <returns>The determinant of the 3x3 matrix formed from <paramref name="a"/>, <paramref name="b"/>, and <paramref name="c"/>.</returns>
         public static double determinant(double3 a, double3 b, double3 c) => dot(a, cross(b, c));
 
         #endregion double
@@ -220,39 +844,147 @@ namespace DivisionEngine.MathLib
         #endregion half
         #region int
 
+        /// <summary>
+        /// Returns the component-wise absolute value of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the absolute value of each component of <paramref name="x"/>.</returns>
         public static int3 abs(int3 x) => new int3(int.Abs(x.x), int.Abs(x.y), int.Abs(x.z));
+        /// <summary>
+        /// Clamps each component of the specified vector to the corresponding component of the minimum and maximum vectors.
+        /// </summary>
+        /// <param name="x">The vector to clamp.</param>
+        /// <param name="min">The vector containing the minimum values for each component.</param>
+        /// <param name="max">The vector containing the maximum values for each component.</param>
+        /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
         public static int3 clamp(int3 x, int3 min, int3 max) => new int3(int.Clamp(x.x, min.x, max.x), int.Clamp(x.y, min.y, max.y), int.Clamp(x.z, min.z, max.z));
+        /// <summary>
+        /// Selects the greater of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise maximum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static int3 max(int3 x, int3 y) => new int3(int.Max(x.x, y.x), int.Max(x.y, y.y), int.Max(x.z, y.z));
+        /// <summary>
+        /// Selects the lesser of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static int3 min(int3 x, int3 y) => new int3(int.Min(x.x, y.x), int.Min(x.y, y.y), int.Min(x.z, y.z));
+        /// <summary>
+        /// Returns the sign of each component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector where each component is -1, 0, or 1 depending on the sign of the corresponding component of <paramref name="x"/>.</returns>
         public static int3 sign(int3 x) => new int3(int.Sign(x.x), int.Sign(x.y), int.Sign(x.z));
 
+        /// <summary>
+        /// Returns the smallest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
         public static int cmin(int3 x) => int.Min(x.x, int.Min(x.y, x.z));
+        /// <summary>
+        /// Returns the largest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
         public static int cmax(int3 x) => int.Max(x.x, int.Max(x.y, x.z));
+        /// <summary>
+        /// Returns the sum of all components of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
         public static int csum(int3 x) => x.x + x.y + x.z;
 
         #endregion int
         #region uint
 
+        /// <summary>
+        /// Clamps each component of the specified vector to the corresponding component of the minimum and maximum vectors.
+        /// </summary>
+        /// <param name="x">The vector to clamp.</param>
+        /// <param name="min">The vector containing the minimum values for each component.</param>
+        /// <param name="max">The vector containing the maximum values for each component.</param>
+        /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
         public static uint3 clamp(uint3 x, uint3 min, uint3 max) => new uint3(uint.Clamp(x.x, min.x, max.x), uint.Clamp(x.y, min.y, max.y), uint.Clamp(x.z, min.z, max.z));
+        /// <summary>
+        /// Selects the greater of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise maximum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static uint3 max(uint3 x, uint3 y) => new uint3(uint.Max(x.x, y.x), uint.Max(x.y, y.y), uint.Max(x.z, y.z));
+        /// <summary>
+        /// Selects the lesser of each corresponding pair of components from two vectors.
+        /// </summary>
+        /// <param name="x">The first vector to compare.</param>
+        /// <param name="y">The second vector to compare.</param>
+        /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static uint3 min(uint3 x, uint3 y) => new uint3(uint.Min(x.x, y.x), uint.Min(x.y, y.y), uint.Min(x.z, y.z));
 
+        /// <summary>
+        /// Returns the smallest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
         public static uint cmin(uint3 x) => uint.Min(x.x, uint.Min(x.y, x.z));
+        /// <summary>
+        /// Returns the largest component of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
         public static uint cmax(uint3 x) => uint.Max(x.x, uint.Max(x.y, x.z));
+        /// <summary>
+        /// Returns the sum of all components of the specified vector.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
         public static uint csum(uint3 x) => x.x + x.y + x.z;
 
         #endregion uint
         #region bool
 
+        /// <summary>
+        /// Determines whether any component of the specified boolean vector is <see langword="true"/>.
+        /// </summary>
+        /// <param name="x">The input boolean vector.</param>
+        /// <returns>A boolean vector representing the component-wise result of the any operation.</returns>
         public static bool3 any(bool3 x) => x.any;
+        /// <summary>
+        /// Determines whether all components of the specified boolean vector are <see langword="true"/>.
+        /// </summary>
+        /// <param name="x">The input boolean vector.</param>
+        /// <returns>A boolean vector representing the component-wise result of the all operation.</returns>
         public static bool3 all(bool3 x) => x.all;
 
         #endregion bool
         #region interpretation
 
+        /// <summary>
+        /// Reinterprets the bit pattern of each component of a <see cref="float3"/> as a signed 32-bit integer.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the bit patterns of <paramref name="x"/> reinterpreted as <see cref="int"/> values.</returns>
         public static int3 asint(float3 x) => new int3(BitConverter.SingleToInt32Bits(x.x), BitConverter.SingleToInt32Bits(x.y), BitConverter.SingleToInt32Bits(x.z));
+        /// <summary>
+        /// Reinterprets the bit pattern of each component of a <see cref="float3"/> as an unsigned 32-bit integer.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the bit patterns of <paramref name="x"/> reinterpreted as <see cref="uint"/> values.</returns>
         public static uint3 asuint(float3 x) => new uint3(BitConverter.SingleToUInt32Bits(x.x), BitConverter.SingleToUInt32Bits(x.y), BitConverter.SingleToUInt32Bits(x.z));
+        /// <summary>
+        /// Reinterprets the bit pattern of each component of an <see cref="int3"/> as a <see cref="float"/>.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the bit patterns of <paramref name="x"/> reinterpreted as <see cref="float"/> values.</returns>
         public static float3 asfloat(int3 x) => new float3(BitConverter.Int32BitsToSingle(x.x), BitConverter.Int32BitsToSingle(x.y), BitConverter.Int32BitsToSingle(x.z));
+        /// <summary>
+        /// Reinterprets the bit pattern of each component of a <see cref="uint3"/> as a <see cref="float"/>.
+        /// </summary>
+        /// <param name="x">The input vector.</param>
+        /// <returns>A vector containing the bit patterns of <paramref name="x"/> reinterpreted as <see cref="float"/> values.</returns>
         public static float3 asfloat(uint3 x) => new float3(BitConverter.UInt32BitsToSingle(x.x), BitConverter.UInt32BitsToSingle(x.y), BitConverter.UInt32BitsToSingle(x.z));
 
         #endregion interpretation
