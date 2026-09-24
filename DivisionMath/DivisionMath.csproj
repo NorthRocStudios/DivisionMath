@@ -20,6 +20,7 @@
     <SignAssembly>False</SignAssembly>
     <PackageReleaseNotes>Added int, uint, double, boolean, and half matrices</PackageReleaseNotes>
     <Copyright>Copyright (c) 2026 Rex Woodfield and NorthRoc Studios contributors</Copyright>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
