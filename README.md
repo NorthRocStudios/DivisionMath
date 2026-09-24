@@ -5,9 +5,9 @@
 
 **A cross-platform math library for CPU and GPU that uses the same code everywhere.**
 
-DivisionMath is part of the [Division Engine](https://github.com/NorthRocStudios/DivisionEngine) ecosystem. It is built for a future library, [DivisionTranslate](https://github.com/NorthRocStudios/DivisionTranslate). Together, these two libraries will replace [ComputeSharp](https://github.com/Sergio0694/ComputeSharp) and enable cross-platform builds of Division Engine.
+DivisionMath is part of the [Division Engine](https://github.com/NorthRocStudios/DivisionEngine) ecosystem. It is built for a future library, [DivisionCompute](https://github.com/NorthRocStudios/DivisionCompute). Together, these two libraries will replace [ComputeSharp](https://github.com/Sergio0694/ComputeSharp) and enable cross-platform builds of Division Engine.
 
-Unlike ComputeSharp, DivisionMath is designed for 1:1 parity math operations on the CPU and GPU with DivisionTranslate. Write your math once, run it on the CPU for tooling and gameplay, then run the same code on the GPU for compute workloads.
+Unlike ComputeSharp, DivisionMath is designed for 1:1 parity math operations on the CPU and GPU with DivisionCompute. Write your math once, run it on the CPU for tooling and gameplay, then run the same code on the GPU for compute workloads.
 
 ## Why DivisionMath?
 
@@ -19,7 +19,7 @@ Math code often gets duplicated: one version for the CPU, another for the GPU. D
 - **Full swizzling support** — `.xyz`, `.rgb`, `.xy`, and other familiar swizzles.
 - **No external dependencies** — lightweight and easy to drop into any project.
 - **Cross-platform** — built for modern .NET.
-- **CPU/GPU parity** — designed to pair with DivisionTranslate for consistent results.
+- **CPU/GPU parity** — designed to pair with DivisionCompute for consistent results.
 - **MIT licensed** — free to use in open-source and commercial projects.
 
 ## Installation
@@ -41,12 +41,12 @@ Or add it directly to your `.csproj`:
 
 ## Project Status
 
-DivisionMath is part of the larger Division Engine toolchain. It is under active development, with the goal of providing a consistent math layer for CPU tooling and GPU compute shaders. Keep an eye on DivisionTranslate for the runtime side of the CPU/GPU story.
+DivisionMath is part of the larger Division Engine toolchain. It is under active development, with the goal of providing a consistent math layer for CPU tooling and GPU compute shaders. Keep an eye on DivisionCompute for the runtime side of the CPU/GPU story.
 
 ## Related Projects
 
 - [Division Engine](https://github.com/DivisionEngine/DivisionEngine)
-- [DivisionTranslate](https://github.com/DivisionEngine/DivisionTranslate)
+- [DivisionCompute](https://github.com/DivisionEngine/DivisionCompute)
 - [ComputeSharp](https://github.com/Sergio0694/ComputeSharp) — inspiration for the C#-to-HLSL workflow.
 
 ## License
