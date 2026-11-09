@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 4x3 half matrix (4 rows, 3 columns) in column-major order (matching HLSL conventions).

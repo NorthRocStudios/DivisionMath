@@ -142,7 +142,6 @@ namespace DivisionEngine.MathLib
         public static float4x4 inverse(float4x4 m)
         {
             float det = determinant(m);
-            if (det == 0f) return zero;
             float invDet = 1f / det;
 
             float c00 = (m.c1.y * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) - m.c1.z * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) + m.c1.w * (m.c2.y * m.c3.z - m.c2.z * m.c3.y)) * invDet;
@@ -168,6 +167,8 @@ namespace DivisionEngine.MathLib
                 c02, c12, c22, c32,
                 c03, c13, c23, c33);
         }
+
+        #region Non-HLSL extensions (Unity-style helpers; DivisionTranslate expands these)
 
         public static float4x4 translate(float3 t) => new float4x4(
             1f, 0f, 0f, t.x,
@@ -235,6 +236,8 @@ namespace DivisionEngine.MathLib
                 xaxis.z, yaxis.z, zaxis.z, eye.z,
                 0f, 0f, 0f, 1f);
         }
+
+        #endregion
 
         public readonly float4x4 transpose() => transpose(this);
         public readonly float determinant() => determinant(this);

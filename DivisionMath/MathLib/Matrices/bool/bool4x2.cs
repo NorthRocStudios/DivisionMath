@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 4x2 boolean matrix (4 rows, 2 columns) in column-major order.
@@ -61,6 +61,7 @@ namespace DivisionEngine.MathLib.Matrices
 
         public static bool4x2 off => new bool4x2(false);
         public static bool4x2 on => new bool4x2(true);
+        public static bool4x2 zero => off;
 
         public static bool4x2 operator !(bool4x2 m) => new bool4x2(!m.c0, !m.c1);
 

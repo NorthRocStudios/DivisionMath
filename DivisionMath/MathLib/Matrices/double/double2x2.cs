@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 2x2 double matrix (2 rows, 2 columns) in column-major order (matching HLSL conventions).
@@ -41,16 +41,16 @@ namespace DivisionEngine.MathLib.Matrices
         {
             readonly get => column switch
             {
-                0 => row == 0 ? c0.x : c0.y,
-                1 => row == 0 ? c1.x : c1.y,
+                0 => row switch { 0 => c0.x, 1 => c0.y, _ => throw new IndexOutOfRangeException() },
+                1 => row switch { 0 => c1.x, 1 => c1.y, _ => throw new IndexOutOfRangeException() },
                 _ => throw new IndexOutOfRangeException()
             };
             set
             {
                 switch (column)
                 {
-                    case 0: if (row == 0) c0.x = value; else c0.y = value; break;
-                    case 1: if (row == 0) c1.x = value; else c1.y = value; break;
+                    case 0: if (row == 0) c0.x = value; else if (row == 1) c0.y = value; else throw new IndexOutOfRangeException(); break;
+                    case 1: if (row == 0) c1.x = value; else if (row == 1) c1.y = value; else throw new IndexOutOfRangeException(); break;
                 }
             }
         }
@@ -95,7 +95,6 @@ namespace DivisionEngine.MathLib.Matrices
         public static double2x2 inverse(double2x2 m)
         {
             double det = determinant(m);
-            if (det == 0.0) return zero;
             double invDet = 1.0 / det;
             return new double2x2(
                  m.c1.y * invDet, -m.c1.x * invDet,

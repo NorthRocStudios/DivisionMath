@@ -26,7 +26,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static float3 clamp(float3 x, float3 min, float3 max) => new float3(float.Clamp(x.x, min.x, max.x), float.Clamp(x.y, min.y, max.y), float.Clamp(x.z, min.z, max.z));
+        public static float3 clamp(float3 x, float3 min, float3 max) => new float3(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z));
         /// <summary>
         /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
         /// </summary>
@@ -34,7 +34,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value applied to each component.</param>
         /// <param name="max">The maximum value applied to each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static float3 clamp(float3 x, float min, float max) => new float3(float.Clamp(x.x, min, max), float.Clamp(x.y, min, max), float.Clamp(x.z, min, max));
+        public static float3 clamp(float3 x, float min, float max) => new float3(clamp(x.x, min, max), clamp(x.y, min, max), clamp(x.z, min, max));
         /// <summary>
         /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
         /// </summary>
@@ -84,7 +84,7 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The vector to saturate.</param>
         /// <returns>A vector with each component clamped to the range [0, 1].</returns>
-        public static float3 saturate(float3 x) => new float3(float.Clamp(x.x, 0f, 1f), float.Clamp(x.y, 0f, 1f), float.Clamp(x.z, 0f, 1f));
+        public static float3 saturate(float3 x) => new float3(saturate(x.x), saturate(x.y), saturate(x.z));
         /// <summary>
         /// Returns the sign of each component of the specified vector.
         /// </summary>
@@ -272,12 +272,6 @@ namespace DivisionEngine.MathLib
         /// <returns>The length of <paramref name="x"/>.</returns>
         public static float length(float3 x) => float.Sqrt(dot(x, x));
         /// <summary>
-        /// Computes the squared length (magnitude) of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
-        public static float lengthsq(float3 x) => dot(x, x);
-        /// <summary>
         /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="x">The first vector.</param>
@@ -292,29 +286,10 @@ namespace DivisionEngine.MathLib
         public static float3 normalize(float3 x)
         {
             float len = length(x);
-            return len > 0 ? x / len : float3.zero;
+            return x / len;
         }
 
         // Component reduction
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static float cmin(float3 x) => float.Min(x.x, float.Min(x.y, x.z));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static float cmax(float3 x) => float.Max(x.x, float.Max(x.y, x.z));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static float csum(float3 x) => x.x + x.y + x.z;
-
         // Cross product (3D only)
         /// <summary>
         /// Computes the 3D cross product of two vectors.
@@ -414,15 +389,6 @@ namespace DivisionEngine.MathLib
         }
 
         // Determinant (for float3x3 matrices - will be useful later)
-        /// <summary>
-        /// Computes the determinant of a 3x3 matrix whose rows (or columns) are the specified vectors.
-        /// </summary>
-        /// <param name="a">The first row (or column) vector.</param>
-        /// <param name="b">The second row (or column) vector.</param>
-        /// <param name="c">The third row (or column) vector.</param>
-        /// <returns>The determinant of the 3x3 matrix formed from <paramref name="a"/>, <paramref name="b"/>, and <paramref name="c"/>.</returns>
-        public static float determinant(float3 a, float3 b, float3 c) => dot(a, cross(b, c));
-
         #endregion float
         #region double
 
@@ -439,7 +405,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static double3 clamp(double3 x, double3 min, double3 max) => new double3(double.Clamp(x.x, min.x, max.x), double.Clamp(x.y, min.y, max.y), double.Clamp(x.z, min.z, max.z));
+        public static double3 clamp(double3 x, double3 min, double3 max) => new double3(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z));
         /// <summary>
         /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
         /// </summary>
@@ -447,7 +413,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value applied to each component.</param>
         /// <param name="max">The maximum value applied to each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static double3 clamp(double3 x, double min, double max) => new double3(double.Clamp(x.x, min, max), double.Clamp(x.y, min, max), double.Clamp(x.z, min, max));
+        public static double3 clamp(double3 x, double min, double max) => new double3(clamp(x.x, min, max), clamp(x.y, min, max), clamp(x.z, min, max));
         /// <summary>
         /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
         /// </summary>
@@ -497,7 +463,7 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The vector to saturate.</param>
         /// <returns>A vector with each component clamped to the range [0, 1].</returns>
-        public static double3 saturate(double3 x) => new double3(double.Clamp(x.x, 0.0, 1.0), double.Clamp(x.y, 0.0, 1.0), double.Clamp(x.z, 0.0, 1.0));
+        public static double3 saturate(double3 x) => new double3(saturate(x.x), saturate(x.y), saturate(x.z));
         /// <summary>
         /// Returns the sign of each component of the specified vector.
         /// </summary>
@@ -685,12 +651,6 @@ namespace DivisionEngine.MathLib
         /// <returns>The length of <paramref name="x"/>.</returns>
         public static double length(double3 x) => double.Sqrt(dot(x, x));
         /// <summary>
-        /// Computes the squared length (magnitude) of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
-        public static double lengthsq(double3 x) => dot(x, x);
-        /// <summary>
         /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="x">The first vector.</param>
@@ -705,29 +665,10 @@ namespace DivisionEngine.MathLib
         public static double3 normalize(double3 x)
         {
             double len = length(x);
-            return len > 0 ? x / len : double3.zero;
+            return x / len;
         }
 
         // Component reduction
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static double cmin(double3 x) => double.Min(x.x, double.Min(x.y, x.z));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static double cmax(double3 x) => double.Max(x.x, double.Max(x.y, x.z));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static double csum(double3 x) => x.x + x.y + x.z;
-
         // Cross product
         /// <summary>
         /// Computes the 3D cross product of two vectors.
@@ -827,15 +768,6 @@ namespace DivisionEngine.MathLib
         }
 
         // Determinant
-        /// <summary>
-        /// Computes the determinant of a 3x3 matrix whose rows (or columns) are the specified vectors.
-        /// </summary>
-        /// <param name="a">The first row (or column) vector.</param>
-        /// <param name="b">The second row (or column) vector.</param>
-        /// <param name="c">The third row (or column) vector.</param>
-        /// <returns>The determinant of the 3x3 matrix formed from <paramref name="a"/>, <paramref name="b"/>, and <paramref name="c"/>.</returns>
-        public static double determinant(double3 a, double3 b, double3 c) => dot(a, cross(b, c));
-
         #endregion double
         #region half
 
@@ -857,7 +789,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static int3 clamp(int3 x, int3 min, int3 max) => new int3(int.Clamp(x.x, min.x, max.x), int.Clamp(x.y, min.y, max.y), int.Clamp(x.z, min.z, max.z));
+        public static int3 clamp(int3 x, int3 min, int3 max) => new int3(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z));
         /// <summary>
         /// Selects the greater of each corresponding pair of components from two vectors.
         /// </summary>
@@ -879,25 +811,6 @@ namespace DivisionEngine.MathLib
         /// <returns>A vector where each component is -1, 0, or 1 depending on the sign of the corresponding component of <paramref name="x"/>.</returns>
         public static int3 sign(int3 x) => new int3(int.Sign(x.x), int.Sign(x.y), int.Sign(x.z));
 
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static int cmin(int3 x) => int.Min(x.x, int.Min(x.y, x.z));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static int cmax(int3 x) => int.Max(x.x, int.Max(x.y, x.z));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static int csum(int3 x) => x.x + x.y + x.z;
-
         #endregion int
         #region uint
 
@@ -908,7 +821,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static uint3 clamp(uint3 x, uint3 min, uint3 max) => new uint3(uint.Clamp(x.x, min.x, max.x), uint.Clamp(x.y, min.y, max.y), uint.Clamp(x.z, min.z, max.z));
+        public static uint3 clamp(uint3 x, uint3 min, uint3 max) => new uint3(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z));
         /// <summary>
         /// Selects the greater of each corresponding pair of components from two vectors.
         /// </summary>
@@ -923,25 +836,6 @@ namespace DivisionEngine.MathLib
         /// <param name="y">The second vector to compare.</param>
         /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static uint3 min(uint3 x, uint3 y) => new uint3(uint.Min(x.x, y.x), uint.Min(x.y, y.y), uint.Min(x.z, y.z));
-
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static uint cmin(uint3 x) => uint.Min(x.x, uint.Min(x.y, x.z));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static uint cmax(uint3 x) => uint.Max(x.x, uint.Max(x.y, x.z));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static uint csum(uint3 x) => x.x + x.y + x.z;
 
         #endregion uint
         #region bool
@@ -988,16 +882,5 @@ namespace DivisionEngine.MathLib
         public static float3 asfloat(uint3 x) => new float3(BitConverter.UInt32BitsToSingle(x.x), BitConverter.UInt32BitsToSingle(x.y), BitConverter.UInt32BitsToSingle(x.z));
 
         #endregion interpretation
-        #region noise
-
-        /// <summary>
-        /// Returns itself, noise is not deterministic and varies per GPU device.
-        /// </summary>
-        /// <returns>Input (x)</returns>
-        /// <remarks>This is only for compatibility and is not useful on the C# CPU side</remarks>
-        public static float3 noise(float3 x) => x;
-        // Implement true noise here later
-
-        #endregion noise
-    }
+            }
 }

@@ -39,7 +39,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value.</param>
         /// <param name="max">The maximum value.</param>
         /// <returns>The clamped value, which lies in the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static float clamp(float x, float min, float max) => float.Clamp(x, min, max);
+        public static float clamp(float x, float min, float max) => x < min ? min : (x > max ? max : x);
         /// <summary>
         /// Performs a linear interpolation between two values.
         /// </summary>
@@ -67,13 +67,13 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The value to saturate.</param>
         /// <returns>The value clamped to the range [0, 1].</returns>
-        public static float saturate(float x) => float.Clamp(x, 0f, 1f);
+        public static float saturate(float x) => float.IsNaN(x) ? 0f : (x < 0f ? 0f : (x > 1f ? 1f : x));
         /// <summary>
         /// Returns the sign of the specified value.
         /// </summary>
         /// <param name="x">The input value.</param>
         /// <returns>-1 if <paramref name="x"/> is negative, 1 if positive, and 0 if <paramref name="x"/> is zero.</returns>
-        public static float sign(float x) => float.Sign(x);
+        public static float sign(float x) => x > 0f ? 1f : (x < 0f ? -1f : 0f);
         /// <summary>
         /// Returns the smallest integer value that is greater than or equal to the specified value.
         /// </summary>
@@ -146,13 +146,13 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The input value.</param>
         /// <returns>The reciprocal of <paramref name="x"/>, computed as <c>1 / x</c>.</returns>
-        public static float rcp(float x) => float.ReciprocalEstimate(x);
+        public static float rcp(float x) => 1f / x;
         /// <summary>
         /// Returns the reciprocal of the square root of the specified value.
         /// </summary>
         /// <param name="x">The input value.</param>
         /// <returns>The reciprocal square root of <paramref name="x"/>, computed as <c>1 / sqrt(x)</c>.</returns>
-        public static float rsqrt(float x) => float.ReciprocalSqrtEstimate(x);
+        public static float rsqrt(float x) => 1f / float.Sqrt(x);
         /// <summary>
         /// Returns the square root of the specified value.
         /// </summary>
@@ -289,7 +289,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value.</param>
         /// <param name="max">The maximum value.</param>
         /// <returns>The clamped value, which lies in the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static double clamp(double x, double min, double max) => double.Clamp(x, min, max);
+        public static double clamp(double x, double min, double max) => x < min ? min : (x > max ? max : x);
         /// <summary>
         /// Performs a linear interpolation between two values.
         /// </summary>
@@ -317,13 +317,13 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The value to saturate.</param>
         /// <returns>The value clamped to the range [0, 1].</returns>
-        public static double saturate(double x) => double.Clamp(x, 0.0, 1.0);
+        public static double saturate(double x) => double.IsNaN(x) ? 0.0 : (x < 0.0 ? 0.0 : (x > 1.0 ? 1.0 : x));
         /// <summary>
         /// Returns the sign of the specified value.
         /// </summary>
         /// <param name="x">The input value.</param>
         /// <returns>-1 if <paramref name="x"/> is negative, 1 if positive, and 0 if <paramref name="x"/> is zero.</returns>
-        public static double sign(double x) => double.Sign(x);
+        public static double sign(double x) => x > 0.0 ? 1.0 : (x < 0.0 ? -1.0 : 0.0);
         /// <summary>
         /// Returns the smallest integer value that is greater than or equal to the specified value.
         /// </summary>
@@ -396,13 +396,13 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The input value.</param>
         /// <returns>The reciprocal of <paramref name="x"/>, computed as <c>1 / x</c>.</returns>
-        public static double rcp(double x) => double.ReciprocalEstimate(x);
+        public static double rcp(double x) => 1.0 / x;
         /// <summary>
         /// Returns the reciprocal of the square root of the specified value.
         /// </summary>
         /// <param name="x">The input value.</param>
         /// <returns>The reciprocal square root of <paramref name="x"/>, computed as <c>1 / sqrt(x)</c>.</returns>
-        public static double rsqrt(double x) => double.ReciprocalSqrtEstimate(x);
+        public static double rsqrt(double x) => 1.0 / double.Sqrt(x);
         /// <summary>
         /// Returns the square root of the specified value.
         /// </summary>
@@ -504,7 +504,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value.</param>
         /// <param name="max">The maximum value.</param>
         /// <returns>The clamped value, which lies in the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static int clamp(int x, int min, int max) => int.Clamp(x, min, max);
+        public static int clamp(int x, int min, int max) => x < min ? min : (x > max ? max : x);
         /// <summary>
         /// Selects the greater of two values.
         /// </summary>
@@ -562,7 +562,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value.</param>
         /// <param name="max">The maximum value.</param>
         /// <returns>The clamped value, which lies in the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static uint clamp(uint x, uint min, uint max) => uint.Clamp(x, min, max);
+        public static uint clamp(uint x, uint min, uint max) => x < min ? min : (x > max ? max : x);
         /// <summary>
         /// Selects the greater of two values.
         /// </summary>
@@ -649,16 +649,5 @@ namespace DivisionEngine.MathLib
         public static float asfloat(uint x) => BitConverter.UInt32BitsToSingle(x);
 
         #endregion interpretation
-        #region noise
-
-        /// <summary>
-        /// Returns itself, noise is not deterministic and varies per GPU device.
-        /// </summary>
-        /// <returns>Input (x)</returns>
-        /// <remarks>This is only for compatibility and is not useful on the C# CPU side</remarks>
-        public static float noise(float x) => x;
-        // Implement true noise here later
-
-        #endregion noise
-    }
+            }
 }

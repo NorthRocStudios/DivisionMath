@@ -101,6 +101,9 @@ namespace DivisionEngine.MathLib
         public static uint3 operator *(uint3 a, uint3 b) => new uint3(a.x * b.x, a.y * b.y, a.z * b.z);
         public static uint3 operator /(uint3 a, uint3 b) => new uint3(a.x / b.x, a.y / b.y, a.z / b.z);
 
+
+        /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
+        public static uint3 operator -(uint3 v) => new uint3(0u - v.x, 0u - v.y, 0u - v.z);
         // Arithmetic - uint
 
         public static uint3 operator +(uint3 a, uint b) => new uint3(a.x + b, a.y + b, a.z + b);

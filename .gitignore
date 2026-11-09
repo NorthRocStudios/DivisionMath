@@ -361,3 +361,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/DivisionMath.Tests/DivisionMath.Tests.csproj
+/DivisionMath.Tests/MatrixFixtures.cs
+/DivisionMath.Tests/MatrixInverseTests.cs
+/DivisionMath.Tests/MatrixMultiplyTests.cs
+/DivisionMath.Tests/MatrixTransposeTests.cs
+/DivisionMath.Tests/MatrixSurfaceTests.cs
+/DivisionMath.Tests/MathSemanticsTests.cs
+/DivisionMath.Tests/MathIntrinsicTests.cs
+/DivisionMath.Tests/HalfSupportTests.cs
+/HLSL_AUDIT.md

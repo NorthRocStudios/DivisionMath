@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 3x3 boolean matrix (3 rows, 3 columns) in column-major order.
@@ -64,6 +64,7 @@ namespace DivisionEngine.MathLib.Matrices
 
         public static bool3x3 off => new bool3x3(false);
         public static bool3x3 on => new bool3x3(true);
+        public static bool3x3 zero => off;
         public static bool3x3 identity => new bool3x3(
             true, false, false,
             false, true, false,

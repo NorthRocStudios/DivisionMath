@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2026 Rex Woodfield and DivisionMath contributors
 //
 // This file is part of DivisionMath and is subject to the terms
@@ -131,5 +131,11 @@ namespace DivisionEngine.MathLib
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1, c2, c3);
 
         public override readonly string ToString() => $"float3x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y},  {c0.z}, {c1.z}, {c2.z}, {c3.z})";
+
+        public static implicit operator float4x4(float3x4 m) => new float4x4(
+            m.c0.x, m.c1.x, m.c2.x, m.c3.x,
+            m.c0.y, m.c1.y, m.c2.y, m.c3.y,
+            m.c0.z, m.c1.z, m.c2.z, m.c3.z,
+            0f, 0f, 0f, 1f);
     }
 }

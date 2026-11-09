@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2026 Rex Woodfield and DivisionMath contributors
 //
 // This file is part of DivisionMath and is subject to the terms
@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 3x3 integer matrix (3 rows, 3 columns) in column-major order (matching HLSL conventions).
@@ -97,39 +97,27 @@ namespace DivisionEngine.MathLib.Matrices
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
             a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z);
 
-        // NOTE: mul(int3x3, int3x4) -> int3x4 will come once int3x4 exists.
-        //       Same for int4x2, int4x3, int4x4.
+        public static int3x4 mul(int3x3 a, int3x4 b) => new int3x4(
+            a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
+            a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
+            a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z,
+            a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z);
 
         public static int3x3 transpose(int3x3 m) => new int3x3(
             m.c0.x, m.c0.y, m.c0.z,
             m.c1.x, m.c1.y, m.c1.z,
             m.c2.x, m.c2.y, m.c2.z);
 
-        public static int determinant(int3x3 m) =>
-            m.c0.x * (m.c1.y * m.c2.z - m.c2.y * m.c1.z)
-          - m.c1.x * (m.c0.y * m.c2.z - m.c2.y * m.c0.z)
-          + m.c2.x * (m.c0.y * m.c1.z - m.c1.y * m.c0.z);
+        /// <summary>
+        /// Integer matrices promote to float, matching HLSL, so the determinant is computed in
+        /// float rather than overflowing the way an int determinant would.
+        /// </summary>
+        public static float determinant(int3x3 m) => float3x3.determinant((float3x3)m);
 
         /// <summary>Integer matrix inverse is a float3x3 (integer inverses are generally not integral).</summary>
-        public static float3x3 inverse(int3x3 m)
-        {
-            int det = determinant(m);
-            if (det == 0) return float3x3.zero;
-            float invDet = 1f / det;
-            return new float3x3(
-                (m.c1.y * m.c2.z - m.c2.y * m.c1.z) * invDet,
-                (m.c2.y * m.c0.z - m.c0.y * m.c2.z) * invDet,
-                (m.c0.y * m.c1.z - m.c1.y * m.c0.z) * invDet,
-                (m.c2.x * m.c1.z - m.c1.x * m.c2.z) * invDet,
-                (m.c0.x * m.c2.z - m.c2.x * m.c0.z) * invDet,
-                (m.c1.x * m.c0.z - m.c0.x * m.c1.z) * invDet,
-                (m.c1.x * m.c2.y - m.c2.x * m.c1.y) * invDet,
-                (m.c2.x * m.c0.y - m.c0.x * m.c2.y) * invDet,
-                (m.c0.x * m.c1.y - m.c1.x * m.c0.y) * invDet);
-        }
-
+        public static float3x3 inverse(int3x3 m) => float3x3.inverse((float3x3)m);
         public readonly int3x3 transpose() => transpose(this);
-        public readonly int determinant() => determinant(this);
+        public readonly float determinant() => determinant(this);
         public readonly float3x3 inverse() => inverse(this);
 
         public static bool operator ==(int3x3 a, int3x3 b) => (a.c0 == b.c0).all && (a.c1 == b.c1).all && (a.c2 == b.c2).all;

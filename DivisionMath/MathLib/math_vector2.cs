@@ -26,7 +26,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static float2 clamp(float2 x, float2 min, float2 max) => new float2(float.Clamp(x.x, min.x, max.x), float.Clamp(x.y, min.y, max.y));
+        public static float2 clamp(float2 x, float2 min, float2 max) => new float2(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y));
         /// <summary>
         /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
         /// </summary>
@@ -34,7 +34,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value applied to each component.</param>
         /// <param name="max">The maximum value applied to each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static float2 clamp(float2 x, float min, float max) => new float2(float.Clamp(x.x, min, max), float.Clamp(x.y, min, max));
+        public static float2 clamp(float2 x, float min, float max) => new float2(clamp(x.x, min, max), clamp(x.y, min, max));
         /// <summary>
         /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
         /// </summary>
@@ -84,7 +84,7 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The vector to saturate.</param>
         /// <returns>A vector with each component clamped to the range [0, 1].</returns>
-        public static float2 saturate(float2 x) => new float2(float.Clamp(x.x, 0f, 1f), float.Clamp(x.y, 0f, 1f));
+        public static float2 saturate(float2 x) => new float2(saturate(x.x), saturate(x.y));
         /// <summary>
         /// Returns the sign of each component of the specified vector.
         /// </summary>
@@ -272,12 +272,6 @@ namespace DivisionEngine.MathLib
         /// <returns>The length of <paramref name="x"/>.</returns>
         public static float length(float2 x) => float.Sqrt(dot(x, x));
         /// <summary>
-        /// Computes the squared length (magnitude) of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
-        public static float lengthsq(float2 x) => dot(x, x);
-        /// <summary>
         /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="x">The first vector.</param>
@@ -292,29 +286,10 @@ namespace DivisionEngine.MathLib
         public static float2 normalize(float2 x)
         {
             float len = length(x);
-            return len > 0 ? x / len : float2.zero;
+            return x / len;
         }
 
         // Component reduction
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static float cmin(float2 x) => float.Min(x.x, x.y);
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static float cmax(float2 x) => float.Max(x.x, x.y);
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static float csum(float2 x) => x.x + x.y;
-
         // Reflection and refraction
         /// <summary>
         /// Computes the reflection of an incident vector around a normal vector.
@@ -410,14 +385,6 @@ namespace DivisionEngine.MathLib
         public static float cross(float2 a, float2 b) => a.x * b.y - a.y * b.x;
 
         // Determinant (alias for cross)
-        /// <summary>
-        /// Computes the determinant of two 2D vectors, which is equivalent to their 2D cross product.
-        /// </summary>
-        /// <param name="a">The first vector.</param>
-        /// <param name="b">The second vector.</param>
-        /// <returns>The determinant of <paramref name="a"/> and <paramref name="b"/>.</returns>
-        public static float determinant(float2 a, float2 b) => cross(a, b);
-
         #endregion float
         #region double
 
@@ -434,7 +401,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static double2 clamp(double2 x, double2 min, double2 max) => new double2(double.Clamp(x.x, min.x, max.x), double.Clamp(x.y, min.y, max.y));
+        public static double2 clamp(double2 x, double2 min, double2 max) => new double2(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y));
         /// <summary>
         /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
         /// </summary>
@@ -442,7 +409,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value applied to each component.</param>
         /// <param name="max">The maximum value applied to each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static double2 clamp(double2 x, double min, double max) => new double2(double.Clamp(x.x, min, max), double.Clamp(x.y, min, max));
+        public static double2 clamp(double2 x, double min, double max) => new double2(clamp(x.x, min, max), clamp(x.y, min, max));
         /// <summary>
         /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
         /// </summary>
@@ -492,7 +459,7 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The vector to saturate.</param>
         /// <returns>A vector with each component clamped to the range [0, 1].</returns>
-        public static double2 saturate(double2 x) => new double2(double.Clamp(x.x, 0.0, 1.0), double.Clamp(x.y, 0.0, 1.0));
+        public static double2 saturate(double2 x) => new double2(saturate(x.x), saturate(x.y));
         /// <summary>
         /// Returns the sign of each component of the specified vector.
         /// </summary>
@@ -680,12 +647,6 @@ namespace DivisionEngine.MathLib
         /// <returns>The length of <paramref name="x"/>.</returns>
         public static double length(double2 x) => double.Sqrt(dot(x, x));
         /// <summary>
-        /// Computes the squared length (magnitude) of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
-        public static double lengthsq(double2 x) => dot(x, x);
-        /// <summary>
         /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="x">The first vector.</param>
@@ -700,29 +661,10 @@ namespace DivisionEngine.MathLib
         public static double2 normalize(double2 x)
         {
             double len = length(x);
-            return len > 0 ? x / len : double2.zero;
+            return x / len;
         }
 
         // Component reduction
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static double cmin(double2 x) => double.Min(x.x, x.y);
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static double cmax(double2 x) => double.Max(x.x, x.y);
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static double csum(double2 x) => x.x + x.y;
-
         // Reflection and refraction
         /// <summary>
         /// Computes the reflection of an incident vector around a normal vector.
@@ -818,14 +760,6 @@ namespace DivisionEngine.MathLib
         public static double cross(double2 a, double2 b) => a.x * b.y - a.y * b.x;
 
         // Determinant (alias for cross)
-        /// <summary>
-        /// Computes the determinant of two 2D vectors, which is equivalent to their 2D cross product.
-        /// </summary>
-        /// <param name="a">The first vector.</param>
-        /// <param name="b">The second vector.</param>
-        /// <returns>The determinant of <paramref name="a"/> and <paramref name="b"/>.</returns>
-        public static double determinant(double2 a, double2 b) => cross(a, b);
-
         #endregion double
         #region half
 
@@ -847,7 +781,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static int2 clamp(int2 x, int2 min, int2 max) => new int2(int.Clamp(x.x, min.x, max.x), int.Clamp(x.y, min.y, max.y));
+        public static int2 clamp(int2 x, int2 min, int2 max) => new int2(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y));
         /// <summary>
         /// Selects the greater of each corresponding pair of components from two vectors.
         /// </summary>
@@ -869,25 +803,6 @@ namespace DivisionEngine.MathLib
         /// <returns>A vector where each component is -1, 0, or 1 depending on the sign of the corresponding component of <paramref name="x"/>.</returns>
         public static int2 sign(int2 x) => new int2(int.Sign(x.x), int.Sign(x.y));
 
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static int cmin(int2 x) => int.Min(x.x, x.y);
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static int cmax(int2 x) => int.Max(x.x, x.y);
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static int csum(int2 x) => x.x + x.y;
-
         #endregion int
         #region uint
 
@@ -898,7 +813,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static uint2 clamp(uint2 x, uint2 min, uint2 max) => new uint2(uint.Clamp(x.x, min.x, max.x), uint.Clamp(x.y, min.y, max.y));
+        public static uint2 clamp(uint2 x, uint2 min, uint2 max) => new uint2(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y));
         /// <summary>
         /// Selects the greater of each corresponding pair of components from two vectors.
         /// </summary>
@@ -913,25 +828,6 @@ namespace DivisionEngine.MathLib
         /// <param name="y">The second vector to compare.</param>
         /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static uint2 min(uint2 x, uint2 y) => new uint2(uint.Min(x.x, y.x), uint.Min(x.y, y.y));
-
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static uint cmin(uint2 x) => uint.Min(x.x, x.y);
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static uint cmax(uint2 x) => uint.Max(x.x, x.y);
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static uint csum(uint2 x) => x.x + x.y;
 
         #endregion uint
         #region bool
@@ -978,16 +874,5 @@ namespace DivisionEngine.MathLib
         public static float2 asfloat(uint2 x) => new float2(BitConverter.UInt32BitsToSingle(x.x), BitConverter.UInt32BitsToSingle(x.y));
 
         #endregion interpretation
-        #region noise
-
-        /// <summary>
-        /// Returns itself, noise is not deterministic and varies per GPU device.
-        /// </summary>
-        /// <returns>Input (x)</returns>
-        /// <remarks>This is only for compatibility and is not useful on the C# CPU side</remarks>
-        public static float2 noise(float2 x) => x;
-        // Implement true noise here later
-
-        #endregion noise
-    }
+            }
 }

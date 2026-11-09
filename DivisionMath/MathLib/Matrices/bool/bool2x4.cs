@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 2x4 boolean matrix (2 rows, 4 columns) in column-major order.
@@ -66,26 +66,27 @@ namespace DivisionEngine.MathLib.Matrices
         {
             readonly get => column switch
             {
-                0 => row == 0 ? c0.x : c0.y,
-                1 => row == 0 ? c1.x : c1.y,
-                2 => row == 0 ? c2.x : c2.y,
-                3 => row == 0 ? c3.x : c3.y,
+                0 => row switch { 0 => c0.x, 1 => c0.y, _ => throw new IndexOutOfRangeException() },
+                1 => row switch { 0 => c1.x, 1 => c1.y, _ => throw new IndexOutOfRangeException() },
+                2 => row switch { 0 => c2.x, 1 => c2.y, _ => throw new IndexOutOfRangeException() },
+                3 => row switch { 0 => c3.x, 1 => c3.y, _ => throw new IndexOutOfRangeException() },
                 _ => throw new IndexOutOfRangeException()
             };
             set
             {
                 switch (column)
                 {
-                    case 0: if (row == 0) c0.x = value; else c0.y = value; break;
-                    case 1: if (row == 0) c1.x = value; else c1.y = value; break;
-                    case 2: if (row == 0) c2.x = value; else c2.y = value; break;
-                    case 3: if (row == 0) c3.x = value; else c3.y = value; break;
+                    case 0: if (row == 0) c0.x = value; else if (row == 1) c0.y = value; else throw new IndexOutOfRangeException(); break;
+                    case 1: if (row == 0) c1.x = value; else if (row == 1) c1.y = value; else throw new IndexOutOfRangeException(); break;
+                    case 2: if (row == 0) c2.x = value; else if (row == 1) c2.y = value; else throw new IndexOutOfRangeException(); break;
+                    case 3: if (row == 0) c3.x = value; else if (row == 1) c3.y = value; else throw new IndexOutOfRangeException(); break;
                 }
             }
         }
 
         public static bool2x4 off => new bool2x4(false);
         public static bool2x4 on => new bool2x4(true);
+        public static bool2x4 zero => off;
 
         public static bool2x4 operator !(bool2x4 m) => new bool2x4(!m.c0, !m.c1, !m.c2, !m.c3);
 

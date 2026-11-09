@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2026 Rex Woodfield and DivisionMath contributors
 //
 // This file is part of DivisionMath and is subject to the terms
@@ -137,26 +137,39 @@ namespace DivisionEngine.MathLib
         public static float3x3 operator *(float3x3 a, float3x3 b) => mul(a, b);
         public static float3x3 operator *(float3x3 m, float scalar) => new float3x3(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar);
         public static float3x3 operator *(float scalar, float3x3 m) => new float3x3(m.c0 * scalar, m.c1 * scalar, m.c2 * scalar);
+        public static float3x3 operator /(float3x3 m, float scalar) => new float3x3(m.c0 / scalar, m.c1 / scalar, m.c2 / scalar);
+        public static float3x3 operator -(float3x3 m) => new float3x3(-m.c0, -m.c1, -m.c2);
+        public static float3x3 operator +(float3x3 m) => m;
 
         // Matrix-Vector
         public static float3 operator *(float3x3 m, float3 v) => v.x * m.c0 + v.y * m.c1 + v.z * m.c2;
+        public static float3 operator *(float3 v, float3x3 m) => mul(v, m);
 
         #endregion ArithmeticOperators
         #region StaticMethods
 
         public static float3x3 mul(float3x3 a, float3x3 b) => new float3x3(
-            a.c0.x * b.c0.x + a.c1.x * b.c0.y + a.c2.x * b.c0.z,
-            a.c0.y * b.c0.x + a.c1.y * b.c0.y + a.c2.y * b.c0.z,
-            a.c0.z * b.c0.x + a.c1.z * b.c0.y + a.c2.z * b.c0.z,
-
-            a.c0.x * b.c1.x + a.c1.x * b.c1.y + a.c2.x * b.c1.z,
-            a.c0.y * b.c1.x + a.c1.y * b.c1.y + a.c2.y * b.c1.z,
-            a.c0.z * b.c1.x + a.c1.z * b.c1.y + a.c2.z * b.c1.z,
-
-            a.c0.x * b.c2.x + a.c1.x * b.c2.y + a.c2.x * b.c2.z,
-            a.c0.y * b.c2.x + a.c1.y * b.c2.y + a.c2.y * b.c2.z,
-            a.c0.z * b.c2.x + a.c1.z * b.c2.y + a.c2.z * b.c2.z
+            a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
+            a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
+            a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z
         );
+
+        public static float3x3 mul(float3x3 m, float s) => m * s;
+        public static float3 mul(float3x3 m, float3 v) => m.c0 * v.x + m.c1 * v.y + m.c2 * v.z;
+        public static float3 mul(float3 v, float3x3 m) => new float3(
+            v.x * m.c0.x + v.y * m.c0.y + v.z * m.c0.z,
+            v.x * m.c1.x + v.y * m.c1.y + v.z * m.c1.z,
+            v.x * m.c2.x + v.y * m.c2.y + v.z * m.c2.z);
+
+        public static float3x2 mul(float3x3 a, float3x2 b) => new float3x2(
+            a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
+            a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z);
+
+        public static float3x4 mul(float3x3 a, float3x4 b) => new float3x4(
+            a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
+            a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
+            a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z,
+            a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z);
 
         public static float3x3 transpose(float3x3 m) => new float3x3(
             m.c0.x, m.c0.y, m.c0.z,
@@ -172,27 +185,23 @@ namespace DivisionEngine.MathLib
         public static float3x3 inverse(float3x3 m)
         {
             float det = determinant(m);
-            if (det == 0f)
-                return zero;
-
             float invDet = 1f / det;
 
-            // Calculate adjugate matrix (transpose of cofactor matrix)
+            // The expressions below are the rows of the cofactor matrix. Supplying those rows as
+            // the constructor's column vectors applies the transpose that the adjugate requires.
             return new float3x3(
-                // First column (cofactors of first row, transposed)
-                (m.c1.y * m.c2.z - m.c2.y * m.c1.z) * invDet,
-                (m.c2.y * m.c0.z - m.c0.y * m.c2.z) * invDet,
-                (m.c0.y * m.c1.z - m.c1.y * m.c0.z) * invDet,
-
-                // Second column (cofactors of second row, transposed)
-                (m.c2.x * m.c1.z - m.c1.x * m.c2.z) * invDet,
-                (m.c0.x * m.c2.z - m.c2.x * m.c0.z) * invDet,
-                (m.c1.x * m.c0.z - m.c0.x * m.c1.z) * invDet,
-
-                // Third column (cofactors of third row, transposed)
-                (m.c1.x * m.c2.y - m.c2.x * m.c1.y) * invDet,
-                (m.c2.x * m.c0.y - m.c0.x * m.c2.y) * invDet,
-                (m.c0.x * m.c1.y - m.c1.x * m.c0.y) * invDet
+                new float3(
+                    (m.c1.y * m.c2.z - m.c2.y * m.c1.z) * invDet,
+                    (m.c2.y * m.c0.z - m.c0.y * m.c2.z) * invDet,
+                    (m.c0.y * m.c1.z - m.c1.y * m.c0.z) * invDet),
+                new float3(
+                    (m.c2.x * m.c1.z - m.c1.x * m.c2.z) * invDet,
+                    (m.c0.x * m.c2.z - m.c2.x * m.c0.z) * invDet,
+                    (m.c1.x * m.c0.z - m.c0.x * m.c1.z) * invDet),
+                new float3(
+                    (m.c1.x * m.c2.y - m.c2.x * m.c1.y) * invDet,
+                    (m.c2.x * m.c0.y - m.c0.x * m.c2.y) * invDet,
+                    (m.c0.x * m.c1.y - m.c1.x * m.c0.y) * invDet)
             );
         }
 

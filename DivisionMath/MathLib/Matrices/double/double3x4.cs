@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2026 Rex Woodfield and DivisionMath contributors
 //
 // This file is part of DivisionMath and is subject to the terms
@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 3x4 double matrix (3 rows, 4 columns) in column-major order (matching HLSL conventions).
@@ -131,5 +131,11 @@ namespace DivisionEngine.MathLib.Matrices
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1, c2, c3);
 
         public override readonly string ToString() => $"double3x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y},  {c0.z}, {c1.z}, {c2.z}, {c3.z})";
+
+        public static implicit operator double4x4(double3x4 m) => new double4x4(
+            m.c0.x, m.c1.x, m.c2.x, m.c3.x,
+            m.c0.y, m.c1.y, m.c2.y, m.c3.y,
+            m.c0.z, m.c1.z, m.c2.z, m.c3.z,
+            0.0, 0.0, 0.0, 1.0);
     }
 }

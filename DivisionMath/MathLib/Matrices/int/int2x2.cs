@@ -1,4 +1,4 @@
-﻿//
+//
 // Copyright (c) 2026 Rex Woodfield and DivisionMath contributors
 //
 // This file is part of DivisionMath and is subject to the terms
@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 2x2 integer matrix in column-major order (matching HLSL conventions).
@@ -80,8 +80,8 @@ namespace DivisionEngine.MathLib.Matrices
         {
             readonly get => column switch
             {
-                0 => row == 0 ? c0.x : c0.y,
-                1 => row == 0 ? c1.x : c1.y,
+                0 => row switch { 0 => c0.x, 1 => c0.y, _ => throw new IndexOutOfRangeException() },
+                1 => row switch { 0 => c1.x, 1 => c1.y, _ => throw new IndexOutOfRangeException() },
                 _ => throw new IndexOutOfRangeException()
             };
             set
@@ -118,6 +118,9 @@ namespace DivisionEngine.MathLib.Matrices
         public static int2x2 operator *(int2x2 a, int2x2 b) => mul(a, b); // Matrix multiplication
         public static int2x2 operator *(int2x2 m, int scalar) => new int2x2(m.c0 * scalar, m.c1 * scalar);
         public static int2x2 operator *(int scalar, int2x2 m) => new int2x2(m.c0 * scalar, m.c1 * scalar);
+        public static int2x2 operator /(int2x2 m, int scalar) => new int2x2(m.c0 / scalar, m.c1 / scalar);
+        public static int2x2 operator -(int2x2 m) => new int2x2(-m.c0, -m.c1);
+        public static int2x2 operator +(int2x2 m) => m;
 
         // Matrix-Vector
         public static int2 operator *(int2x2 m, int2 v) => v.x * m.c0 + v.y * m.c1;
@@ -130,10 +133,8 @@ namespace DivisionEngine.MathLib.Matrices
         #region StaticMethods
 
         public static int2x2 mul(int2x2 a, int2x2 b) => new int2x2(
-            a.c0.x * b.c0.x + a.c1.x * b.c0.y,
-            a.c0.y * b.c0.x + a.c1.y * b.c0.y,
-            a.c0.x * b.c1.x + a.c1.x * b.c1.y,
-            a.c0.y * b.c1.x + a.c1.y * b.c1.y
+            a.c0 * b.c0.x + a.c1 * b.c0.y,
+            a.c0 * b.c1.x + a.c1 * b.c1.y
         );
 
         public static int2 mul(int2x2 m, int2 v) => m * v;
@@ -143,36 +144,34 @@ namespace DivisionEngine.MathLib.Matrices
             v.x * m.c1.x + v.y * m.c1.y
         );
 
+        public static int2x2 mul(int2x2 m, int s) => m * s;
+
+        public static int2x3 mul(int2x2 a, int2x3 b) => new int2x3(
+            a.c0 * b.c0.x + a.c1 * b.c0.y,
+            a.c0 * b.c1.x + a.c1 * b.c1.y,
+            a.c0 * b.c2.x + a.c1 * b.c2.y);
+
+        public static int2x4 mul(int2x2 a, int2x4 b) => new int2x4(
+            a.c0 * b.c0.x + a.c1 * b.c0.y,
+            a.c0 * b.c1.x + a.c1 * b.c1.y,
+            a.c0 * b.c2.x + a.c1 * b.c2.y,
+            a.c0 * b.c3.x + a.c1 * b.c3.y);
+
         public static int2x2 transpose(int2x2 m) => new int2x2(
             m.c0.x, m.c0.y,
             m.c1.x, m.c1.y
         );
 
-        public static int determinant(int2x2 m) => m.c0.x * m.c1.y - m.c1.x * m.c0.y;
-
         /// <summary>
-        /// Integer matrices do not have an integer inverse in general.
-        /// This returns a float2x2 so the reciprocal determinant can be represented.
+        /// Integer matrices promote to float, matching HLSL, so the determinant is computed in
+        /// float rather than overflowing the way an int determinant would.
         /// </summary>
-        public static float2x2 inverse(int2x2 m)
-        {
-            int det = determinant(m);
-            if (det == 0)
-                return float2x2.zero;
+        public static float determinant(int2x2 m) => float2x2.determinant((float2x2)m);
 
-            float invDet = 1f / det;
-            return new float2x2(
-                 m.c1.y * invDet, -m.c1.x * invDet,
-                -m.c0.y * invDet, m.c0.x * invDet
-            );
-        }
-
-        #endregion StaticMethods
-
-        #region InstanceMethods
-
+        /// <summary>Integer matrix inverse is a float2x2 (integer inverses are generally not integral).</summary>
+        public static float2x2 inverse(int2x2 m) => float2x2.inverse((float2x2)m);
         public readonly int2x2 transpose() => transpose(this);
-        public readonly int determinant() => determinant(this);
+        public readonly float determinant() => determinant(this);
         public readonly float2x2 inverse() => inverse(this);
 
         #endregion InstanceMethods

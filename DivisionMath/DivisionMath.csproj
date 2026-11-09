@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -7,7 +7,7 @@
     <RootNamespace>DivisionEngine</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Division Math</Title>
-    <Version>0.2.1</Version>
+    <Version>0.3.0</Version>
     <Authors>Rex Woodfield</Authors>
     <Company>NorthRoc Studios</Company>
     <Description>A math library built for seamless C# to HLSL translation. Functions identically to HLSL math operations.</Description>
@@ -18,7 +18,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <SignAssembly>False</SignAssembly>
-    <PackageReleaseNotes>Added documentation and updated README</PackageReleaseNotes>
+    <PackageReleaseNotes>0.3.0 - HLSL conformance pass. Breaking: matrices unified into DivisionEngine.MathLib; integer determinant/inverse promote to float; math.noise removed. Fixed transposed float3x3/int2x2 multiply and transposed 3x3 inverse. Added missing intrinsics, half overloads and math.mul/transpose/determinant.</PackageReleaseNotes>
     <Copyright>Copyright (c) 2026 Rex Woodfield and NorthRoc Studios contributors</Copyright>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>

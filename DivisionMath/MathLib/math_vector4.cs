@@ -26,7 +26,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static float4 clamp(float4 x, float4 min, float4 max) => new float4(float.Clamp(x.x, min.x, max.x), float.Clamp(x.y, min.y, max.y), float.Clamp(x.z, min.z, max.z), float.Clamp(x.w, min.w, max.w));
+        public static float4 clamp(float4 x, float4 min, float4 max) => new float4(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z), clamp(x.w, min.w, max.w));
         /// <summary>
         /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
         /// </summary>
@@ -34,7 +34,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value applied to each component.</param>
         /// <param name="max">The maximum value applied to each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static float4 clamp(float4 x, float min, float max) => new float4(float.Clamp(x.x, min, max), float.Clamp(x.y, min, max), float.Clamp(x.z, min, max), float.Clamp(x.w, min, max));
+        public static float4 clamp(float4 x, float min, float max) => new float4(clamp(x.x, min, max), clamp(x.y, min, max), clamp(x.z, min, max), clamp(x.w, min, max));
         /// <summary>
         /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
         /// </summary>
@@ -84,7 +84,7 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The vector to saturate.</param>
         /// <returns>A vector with each component clamped to the range [0, 1].</returns>
-        public static float4 saturate(float4 x) => new float4(float.Clamp(x.x, 0f, 1f), float.Clamp(x.y, 0f, 1f), float.Clamp(x.z, 0f, 1f), float.Clamp(x.w, 0f, 1f));
+        public static float4 saturate(float4 x) => new float4(saturate(x.x), saturate(x.y), saturate(x.z), saturate(x.w));
         /// <summary>
         /// Returns the sign of each component of the specified vector.
         /// </summary>
@@ -272,12 +272,6 @@ namespace DivisionEngine.MathLib
         /// <returns>The length of <paramref name="x"/>.</returns>
         public static float length(float4 x) => float.Sqrt(dot(x, x));
         /// <summary>
-        /// Computes the squared length (magnitude) of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
-        public static float lengthsq(float4 x) => dot(x, x);
-        /// <summary>
         /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="x">The first vector.</param>
@@ -292,29 +286,10 @@ namespace DivisionEngine.MathLib
         public static float4 normalize(float4 x)
         {
             float len = length(x);
-            return len > 0 ? x / len : float4.zero;
+            return x / len;
         }
 
         // Component reduction
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static float cmin(float4 x) => float.Min(x.x, float.Min(x.y, float.Min(x.z, x.w)));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static float cmax(float4 x) => float.Max(x.x, float.Max(x.y, float.Max(x.z, x.w)));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static float csum(float4 x) => x.x + x.y + x.z + x.w;
-
         // Reflection and refraction
         /// <summary>
         /// Computes the reflection of an incident vector around a normal vector.
@@ -431,7 +406,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static double4 clamp(double4 x, double4 min, double4 max) => new double4(double.Clamp(x.x, min.x, max.x), double.Clamp(x.y, min.y, max.y), double.Clamp(x.z, min.z, max.z), double.Clamp(x.w, min.w, max.w));
+        public static double4 clamp(double4 x, double4 min, double4 max) => new double4(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z), clamp(x.w, min.w, max.w));
         /// <summary>
         /// Clamps each component of the specified vector to the specified minimum and maximum scalar range.
         /// </summary>
@@ -439,7 +414,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The minimum value applied to each component.</param>
         /// <param name="max">The maximum value applied to each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static double4 clamp(double4 x, double min, double max) => new double4(double.Clamp(x.x, min, max), double.Clamp(x.y, min, max), double.Clamp(x.z, min, max), double.Clamp(x.w, min, max));
+        public static double4 clamp(double4 x, double min, double max) => new double4(clamp(x.x, min, max), clamp(x.y, min, max), clamp(x.z, min, max), clamp(x.w, min, max));
         /// <summary>
         /// Performs a component-wise linear interpolation between two vectors using a scalar interpolation factor.
         /// </summary>
@@ -489,7 +464,7 @@ namespace DivisionEngine.MathLib
         /// </summary>
         /// <param name="x">The vector to saturate.</param>
         /// <returns>A vector with each component clamped to the range [0, 1].</returns>
-        public static double4 saturate(double4 x) => new double4(double.Clamp(x.x, 0.0, 1.0), double.Clamp(x.y, 0.0, 1.0), double.Clamp(x.z, 0.0, 1.0), double.Clamp(x.w, 0.0, 1.0));
+        public static double4 saturate(double4 x) => new double4(saturate(x.x), saturate(x.y), saturate(x.z), saturate(x.w));
         /// <summary>
         /// Returns the sign of each component of the specified vector.
         /// </summary>
@@ -677,12 +652,6 @@ namespace DivisionEngine.MathLib
         /// <returns>The length of <paramref name="x"/>.</returns>
         public static double length(double4 x) => double.Sqrt(dot(x, x));
         /// <summary>
-        /// Computes the squared length (magnitude) of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The squared length of <paramref name="x"/>, which avoids a square root operation.</returns>
-        public static double lengthsq(double4 x) => dot(x, x);
-        /// <summary>
         /// Computes the distance between two vectors.
         /// </summary>
         /// <param name="x">The first vector.</param>
@@ -697,29 +666,10 @@ namespace DivisionEngine.MathLib
         public static double4 normalize(double4 x)
         {
             double len = length(x);
-            return len > 0 ? x / len : double4.zero;
+            return x / len;
         }
 
         // Component reduction
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static double cmin(double4 x) => double.Min(x.x, double.Min(x.y, double.Min(x.z, x.w)));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static double cmax(double4 x) => double.Max(x.x, double.Max(x.y, double.Max(x.z, x.w)));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static double csum(double4 x) => x.x + x.y + x.z + x.w;
-
         // Reflection and refraction
         /// <summary>
         /// Computes the reflection of an incident vector around a normal vector.
@@ -841,7 +791,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static int4 clamp(int4 x, int4 min, int4 max) => new int4(int.Clamp(x.x, min.x, max.x), int.Clamp(x.y, min.y, max.y), int.Clamp(x.z, min.z, max.z), int.Clamp(x.w, min.w, max.w));
+        public static int4 clamp(int4 x, int4 min, int4 max) => new int4(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z), clamp(x.w, min.w, max.w));
         /// <summary>
         /// Selects the greater of each corresponding pair of components from two vectors.
         /// </summary>
@@ -863,25 +813,6 @@ namespace DivisionEngine.MathLib
         /// <returns>A vector where each component is -1, 0, or 1 depending on the sign of the corresponding component of <paramref name="x"/>.</returns>
         public static int4 sign(int4 x) => new int4(int.Sign(x.x), int.Sign(x.y), int.Sign(x.z), int.Sign(x.w));
 
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static int cmin(int4 x) => int.Min(x.x, int.Min(x.y, int.Min(x.z, x.w)));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static int cmax(int4 x) => int.Max(x.x, int.Max(x.y, int.Max(x.z, x.w)));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static int csum(int4 x) => x.x + x.y + x.z + x.w;
-
         #endregion int
         #region uint
 
@@ -892,7 +823,7 @@ namespace DivisionEngine.MathLib
         /// <param name="min">The vector containing the minimum values for each component.</param>
         /// <param name="max">The vector containing the maximum values for each component.</param>
         /// <returns>A vector with each component clamped to the range [<paramref name="min"/>, <paramref name="max"/>].</returns>
-        public static uint4 clamp(uint4 x, uint4 min, uint4 max) => new uint4(uint.Clamp(x.x, min.x, max.x), uint.Clamp(x.y, min.y, max.y), uint.Clamp(x.z, min.z, max.z), uint.Clamp(x.w, min.w, max.w));
+        public static uint4 clamp(uint4 x, uint4 min, uint4 max) => new uint4(clamp(x.x, min.x, max.x), clamp(x.y, min.y, max.y), clamp(x.z, min.z, max.z), clamp(x.w, min.w, max.w));
         /// <summary>
         /// Selects the greater of each corresponding pair of components from two vectors.
         /// </summary>
@@ -907,25 +838,6 @@ namespace DivisionEngine.MathLib
         /// <param name="y">The second vector to compare.</param>
         /// <returns>A vector containing the component-wise minimum of <paramref name="x"/> and <paramref name="y"/>.</returns>
         public static uint4 min(uint4 x, uint4 y) => new uint4(uint.Min(x.x, y.x), uint.Min(x.y, y.y), uint.Min(x.z, y.z), uint.Min(x.w, y.w));
-
-        /// <summary>
-        /// Returns the smallest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The minimum of the components of <paramref name="x"/>.</returns>
-        public static uint cmin(uint4 x) => uint.Min(x.x, uint.Min(x.y, uint.Min(x.z, x.w)));
-        /// <summary>
-        /// Returns the largest component of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The maximum of the components of <paramref name="x"/>.</returns>
-        public static uint cmax(uint4 x) => uint.Max(x.x, uint.Max(x.y, uint.Max(x.z, x.w)));
-        /// <summary>
-        /// Returns the sum of all components of the specified vector.
-        /// </summary>
-        /// <param name="x">The input vector.</param>
-        /// <returns>The sum of the components of <paramref name="x"/>.</returns>
-        public static uint csum(uint4 x) => x.x + x.y + x.z + x.w;
 
         #endregion uint
         #region bool
@@ -976,16 +888,5 @@ namespace DivisionEngine.MathLib
             BitConverter.UInt32BitsToSingle(x.z), BitConverter.UInt32BitsToSingle(x.w));
 
         #endregion interpretation
-        #region noise
-
-        /// <summary>
-        /// Returns itself, noise is not deterministic and varies per GPU device.
-        /// </summary>
-        /// <returns>Input (x)</returns>
-        /// <remarks>This is only for compatibility and is not useful on the C# CPU side</remarks>
-        public static float4 noise(float4 x) => x;
-        // Implement true noise here later
-
-        #endregion noise
-    }
+            }
 }

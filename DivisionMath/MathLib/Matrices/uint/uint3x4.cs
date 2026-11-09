@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 3x4 uint matrix (3 rows, 4 columns) in column-major order (matching HLSL conventions).
@@ -92,6 +92,8 @@ namespace DivisionEngine.MathLib.Matrices
         public static uint3x4 operator *(uint s, uint3x4 m) => new uint3x4(m.c0 * s, m.c1 * s, m.c2 * s, m.c3 * s);
         public static uint3x4 operator /(uint3x4 m, uint s) => new uint3x4(m.c0 / s, m.c1 / s, m.c2 / s, m.c3 / s);
         public static uint3x4 operator +(uint3x4 m) => m;
+        /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
+        public static uint3x4 operator -(uint3x4 m) => new uint3x4(-m.c0, -m.c1, -m.c2, -m.c3);
         public static uint3 operator *(uint3x4 m, uint4 v) => mul(m, v);
         public static uint4 operator *(uint3 v, uint3x4 m) => mul(v, m);
 

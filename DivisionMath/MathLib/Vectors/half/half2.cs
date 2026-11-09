@@ -68,6 +68,12 @@ namespace DivisionEngine.MathLib
         public static implicit operator half2(half3 v) => new half2(v.x, v.y);
         public static implicit operator half2(float v) => new half2(v);
 
+        /// <summary>Widens to <c>float2</c>, matching HLSL's implicit half-to-float promotion.</summary>
+        public static implicit operator float2(half2 v) => new float2(v.x, v.y);
+
+        /// <summary>Narrows to <c>half2</c>; explicit because the conversion loses precision.</summary>
+        public static explicit operator half2(float2 v) => new half2(v.x, v.y);
+
         // Unit Vectors
 
         public static half2 zero => new half2(0);

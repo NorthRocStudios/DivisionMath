@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 4x4 half matrix (4 rows, 4 columns) in column-major order (matching HLSL conventions).
@@ -141,7 +141,6 @@ namespace DivisionEngine.MathLib.Matrices
         public static half4x4 inverse(half4x4 m)
         {
             float det = determinant(m);
-            if (det == 0f) return zero;
             float invDet = 1f / det;
 
             float c00 = (m.c1.y * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) - m.c1.z * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) + m.c1.w * (m.c2.y * m.c3.z - m.c2.z * m.c3.y)) * invDet;

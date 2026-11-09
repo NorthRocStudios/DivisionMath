@@ -137,6 +137,9 @@ namespace DivisionEngine.MathLib
         public static uint4 operator *(uint4 a, uint4 b) => new uint4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
         public static uint4 operator /(uint4 a, uint4 b) => new uint4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
 
+
+        /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
+        public static uint4 operator -(uint4 v) => new uint4(0u - v.x, 0u - v.y, 0u - v.z, 0u - v.w);
         // Arithmetic - uint
 
         public static uint4 operator +(uint4 a, uint b) => new uint4(a.x + b, a.y + b, a.z + b, a.w + b);

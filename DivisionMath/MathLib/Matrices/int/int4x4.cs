@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 4x4 integer matrix (4 rows, 4 columns) in column-major order (matching HLSL conventions).
@@ -117,64 +117,16 @@ namespace DivisionEngine.MathLib.Matrices
             m.c2.x, m.c2.y, m.c2.z, m.c2.w,
             m.c3.x, m.c3.y, m.c3.z, m.c3.w);
 
-        public static int determinant(int4x4 m)
-        {
-            int det = m.c0.x * (
-                m.c1.y * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) -
-                m.c1.z * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) +
-                m.c1.w * (m.c2.y * m.c3.z - m.c2.z * m.c3.y)
-            ) - m.c1.x * (
-                m.c0.y * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) -
-                m.c0.z * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) +
-                m.c0.w * (m.c2.y * m.c3.z - m.c2.z * m.c3.y)
-            ) + m.c2.x * (
-                m.c0.y * (m.c1.z * m.c3.w - m.c1.w * m.c3.z) -
-                m.c0.z * (m.c1.y * m.c3.w - m.c1.w * m.c3.y) +
-                m.c0.w * (m.c1.y * m.c3.z - m.c1.z * m.c3.y)
-            ) - m.c3.x * (
-                m.c0.y * (m.c1.z * m.c2.w - m.c1.w * m.c2.z) -
-                m.c0.z * (m.c1.y * m.c2.w - m.c1.w * m.c2.y) +
-                m.c0.w * (m.c1.y * m.c2.z - m.c1.z * m.c2.y)
-            );
-            return det;
-        }
+        /// <summary>
+        /// Integer matrices promote to float, matching HLSL, so the determinant is computed in
+        /// float rather than overflowing the way an int determinant would.
+        /// </summary>
+        public static float determinant(int4x4 m) => float4x4.determinant((float4x4)m);
 
         /// <summary>Integer matrix inverse is a float4x4 (integer inverses are generally not integral).</summary>
-        public static float4x4 inverse(int4x4 m)
-        {
-            int det = determinant(m);
-            if (det == 0) return float4x4.zero;
-            float invDet = 1f / det;
-
-            float c00 = (m.c1.y * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) - m.c1.z * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) + m.c1.w * (m.c2.y * m.c3.z - m.c2.z * m.c3.y)) * invDet;
-            float c01 = -(m.c0.y * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) - m.c0.z * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) + m.c0.w * (m.c2.y * m.c3.z - m.c2.z * m.c3.y)) * invDet;
-            float c02 = (m.c0.y * (m.c1.z * m.c3.w - m.c1.w * m.c3.z) - m.c0.z * (m.c1.y * m.c3.w - m.c1.w * m.c3.y) + m.c0.w * (m.c1.y * m.c3.z - m.c1.z * m.c3.y)) * invDet;
-            float c03 = -(m.c0.y * (m.c1.z * m.c2.w - m.c1.w * m.c2.z) - m.c0.z * (m.c1.y * m.c2.w - m.c1.w * m.c2.y) + m.c0.w * (m.c1.y * m.c2.z - m.c1.z * m.c2.y)) * invDet;
-
-            float c10 = -(m.c1.x * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) - m.c1.z * (m.c2.x * m.c3.w - m.c2.w * m.c3.x) + m.c1.w * (m.c2.x * m.c3.z - m.c2.z * m.c3.x)) * invDet;
-            float c11 = (m.c0.x * (m.c2.z * m.c3.w - m.c2.w * m.c3.z) - m.c0.z * (m.c2.x * m.c3.w - m.c2.w * m.c3.x) + m.c0.w * (m.c2.x * m.c3.z - m.c2.z * m.c3.x)) * invDet;
-            float c12 = -(m.c0.x * (m.c1.z * m.c3.w - m.c1.w * m.c3.z) - m.c0.z * (m.c1.x * m.c3.w - m.c1.w * m.c3.x) + m.c0.w * (m.c1.x * m.c3.z - m.c1.z * m.c3.x)) * invDet;
-            float c13 = (m.c0.x * (m.c1.z * m.c2.w - m.c1.w * m.c2.z) - m.c0.z * (m.c1.x * m.c2.w - m.c1.w * m.c2.x) + m.c0.w * (m.c1.x * m.c2.z - m.c1.z * m.c2.x)) * invDet;
-
-            float c20 = (m.c1.x * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) - m.c1.y * (m.c2.x * m.c3.w - m.c2.w * m.c3.x) + m.c1.w * (m.c2.x * m.c3.y - m.c2.y * m.c3.x)) * invDet;
-            float c21 = -(m.c0.x * (m.c2.y * m.c3.w - m.c2.w * m.c3.y) - m.c0.y * (m.c2.x * m.c3.w - m.c2.w * m.c3.x) + m.c0.w * (m.c2.x * m.c3.y - m.c2.y * m.c3.x)) * invDet;
-            float c22 = (m.c0.x * (m.c1.y * m.c3.w - m.c1.w * m.c3.y) - m.c0.y * (m.c1.x * m.c3.w - m.c1.w * m.c3.x) + m.c0.w * (m.c1.x * m.c3.y - m.c1.y * m.c3.x)) * invDet;
-            float c23 = -(m.c0.x * (m.c1.y * m.c2.w - m.c1.w * m.c2.y) - m.c0.y * (m.c1.x * m.c2.w - m.c1.w * m.c2.x) + m.c0.w * (m.c1.x * m.c2.y - m.c1.y * m.c2.x)) * invDet;
-
-            float c30 = -(m.c1.x * (m.c2.y * m.c3.z - m.c2.z * m.c3.y) - m.c1.y * (m.c2.x * m.c3.z - m.c2.z * m.c3.x) + m.c1.z * (m.c2.x * m.c3.y - m.c2.y * m.c3.x)) * invDet;
-            float c31 = (m.c0.x * (m.c2.y * m.c3.z - m.c2.z * m.c3.y) - m.c0.y * (m.c2.x * m.c3.z - m.c2.z * m.c3.x) + m.c0.z * (m.c2.x * m.c3.y - m.c2.y * m.c3.x)) * invDet;
-            float c32 = -(m.c0.x * (m.c1.y * m.c3.z - m.c1.z * m.c3.y) - m.c0.y * (m.c1.x * m.c3.z - m.c1.z * m.c3.x) + m.c0.z * (m.c1.x * m.c3.y - m.c1.y * m.c3.x)) * invDet;
-            float c33 = (m.c0.x * (m.c1.y * m.c2.z - m.c1.z * m.c2.y) - m.c0.y * (m.c1.x * m.c2.z - m.c1.z * m.c2.x) + m.c0.z * (m.c1.x * m.c2.y - m.c1.y * m.c2.x)) * invDet;
-
-            return new float4x4(
-                c00, c10, c20, c30,
-                c01, c11, c21, c31,
-                c02, c12, c22, c32,
-                c03, c13, c23, c33);
-        }
-
+        public static float4x4 inverse(int4x4 m) => float4x4.inverse((float4x4)m);
         public readonly int4x4 transpose() => transpose(this);
-        public readonly int determinant() => determinant(this);
+        public readonly float determinant() => determinant(this);
         public readonly float4x4 inverse() => inverse(this);
 
         public static bool operator ==(int4x4 a, int4x4 b) => (a.c0 == b.c0).all && (a.c1 == b.c1).all && (a.c2 == b.c2).all && (a.c3 == b.c3).all;

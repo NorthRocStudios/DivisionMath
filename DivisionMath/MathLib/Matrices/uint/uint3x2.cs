@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 3x2 uint matrix (3 rows, 2 columns) in column-major order (matching HLSL conventions).
@@ -65,6 +65,8 @@ namespace DivisionEngine.MathLib.Matrices
         public static uint3x2 operator *(uint s, uint3x2 m) => new uint3x2(m.c0 * s, m.c1 * s);
         public static uint3x2 operator /(uint3x2 m, uint s) => new uint3x2(m.c0 / s, m.c1 / s);
         public static uint3x2 operator +(uint3x2 m) => m;
+        /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
+        public static uint3x2 operator -(uint3x2 m) => new uint3x2(-m.c0, -m.c1);
         public static uint3 operator *(uint3x2 m, uint2 v) => mul(m, v);
         public static uint2 operator *(uint3 v, uint3x2 m) => mul(v, m);
 

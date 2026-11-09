@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 3x3 uint matrix (3 rows, 3 columns) in column-major order (matching HLSL conventions).
@@ -77,6 +77,8 @@ namespace DivisionEngine.MathLib.Matrices
         public static uint3x3 operator *(uint s, uint3x3 m) => new uint3x3(m.c0 * s, m.c1 * s, m.c2 * s);
         public static uint3x3 operator /(uint3x3 m, uint s) => new uint3x3(m.c0 / s, m.c1 / s, m.c2 / s);
         public static uint3x3 operator +(uint3x3 m) => m;
+        /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
+        public static uint3x3 operator -(uint3x3 m) => new uint3x3(-m.c0, -m.c1, -m.c2);
         public static uint3 operator *(uint3x3 m, uint3 v) => mul(m, v);
         public static uint3 operator *(uint3 v, uint3x3 m) => mul(v, m);
 
@@ -104,7 +106,17 @@ namespace DivisionEngine.MathLib.Matrices
             m.c0.x, m.c0.y, m.c0.z,
             m.c1.x, m.c1.y, m.c1.z,
             m.c2.x, m.c2.y, m.c2.z);
+        /// <summary>
+        /// Unsigned integer matrices promote to float, matching HLSL, so the determinant is
+        /// computed in float rather than wrapping the way an unsigned determinant would.
+        /// </summary>
+        public static float determinant(uint3x3 m) => float3x3.determinant((float3x3)m);
+
+        /// <summary>Unsigned integer matrix inverse is a float3x3 (integer inverses are generally not integral).</summary>
+        public static float3x3 inverse(uint3x3 m) => float3x3.inverse((float3x3)m);
         public readonly uint3x3 transpose() => transpose(this);
+        public readonly float determinant() => determinant(this);
+        public readonly float3x3 inverse() => inverse(this);
 
         public static bool operator ==(uint3x3 a, uint3x3 b) => (a.c0 == b.c0).all && (a.c1 == b.c1).all && (a.c2 == b.c2).all;
         public static bool operator !=(uint3x3 a, uint3x3 b) => !(a == b);

@@ -3,4 +3,5 @@
     <File Path=".editorconfig" />
   </Folder>
   <Project Path="DivisionMath/DivisionMath.csproj" />
+  <Project Path="DivisionMath.Tests/DivisionMath.Tests.csproj" />
 </Solution>

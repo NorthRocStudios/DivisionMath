@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 3x3 double matrix (3 rows, 3 columns) in column-major order (matching HLSL conventions).
@@ -114,18 +114,22 @@ namespace DivisionEngine.MathLib.Matrices
         public static double3x3 inverse(double3x3 m)
         {
             double det = determinant(m);
-            if (det == 0.0) return zero;
             double invDet = 1.0 / det;
+            // The expressions below are the rows of the cofactor matrix. Supplying those rows as
+            // the constructor's column vectors applies the transpose that the adjugate requires.
             return new double3x3(
-                (m.c1.y * m.c2.z - m.c2.y * m.c1.z) * invDet,
-                (m.c2.y * m.c0.z - m.c0.y * m.c2.z) * invDet,
-                (m.c0.y * m.c1.z - m.c1.y * m.c0.z) * invDet,
-                (m.c2.x * m.c1.z - m.c1.x * m.c2.z) * invDet,
-                (m.c0.x * m.c2.z - m.c2.x * m.c0.z) * invDet,
-                (m.c1.x * m.c0.z - m.c0.x * m.c1.z) * invDet,
-                (m.c1.x * m.c2.y - m.c2.x * m.c1.y) * invDet,
-                (m.c2.x * m.c0.y - m.c0.x * m.c2.y) * invDet,
-                (m.c0.x * m.c1.y - m.c1.x * m.c0.y) * invDet);
+                new double3(
+                    (m.c1.y * m.c2.z - m.c2.y * m.c1.z) * invDet,
+                    (m.c2.y * m.c0.z - m.c0.y * m.c2.z) * invDet,
+                    (m.c0.y * m.c1.z - m.c1.y * m.c0.z) * invDet),
+                new double3(
+                    (m.c2.x * m.c1.z - m.c1.x * m.c2.z) * invDet,
+                    (m.c0.x * m.c2.z - m.c2.x * m.c0.z) * invDet,
+                    (m.c1.x * m.c0.z - m.c0.x * m.c1.z) * invDet),
+                new double3(
+                    (m.c1.x * m.c2.y - m.c2.x * m.c1.y) * invDet,
+                    (m.c2.x * m.c0.y - m.c0.x * m.c2.y) * invDet,
+                    (m.c0.x * m.c1.y - m.c1.x * m.c0.y) * invDet));
         }
 
         public readonly double3x3 transpose() => transpose(this);

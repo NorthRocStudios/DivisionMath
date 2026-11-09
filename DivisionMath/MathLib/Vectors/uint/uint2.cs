@@ -77,6 +77,9 @@ namespace DivisionEngine.MathLib
         public static uint2 operator *(uint2 a, uint2 b) => new uint2(a.x * b.x, a.y * b.y);
         public static uint2 operator /(uint2 a, uint2 b) => new uint2(a.x / b.x, a.y / b.y);
 
+
+        /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
+        public static uint2 operator -(uint2 v) => new uint2(0u - v.x, 0u - v.y);
         public static uint2 operator +(uint2 a, uint b) => new uint2(a.x + b, a.y + b);
         public static uint2 operator -(uint2 a, uint b) => new uint2(a.x - b, a.y - b);
         public static uint2 operator *(uint2 a, uint b) => new uint2(a.x * b, a.y * b);

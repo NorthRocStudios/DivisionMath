@@ -7,7 +7,7 @@
 //
 using System.Runtime.InteropServices;
 
-namespace DivisionEngine.MathLib.Matrices
+namespace DivisionEngine.MathLib
 {
     /// <summary>
     /// Represents a 2x3 uint matrix (2 rows, 3 columns) in column-major order (matching HLSL conventions).
@@ -45,18 +45,18 @@ namespace DivisionEngine.MathLib.Matrices
         {
             readonly get => column switch
             {
-                0 => row == 0 ? c0.x : c0.y,
-                1 => row == 0 ? c1.x : c1.y,
-                2 => row == 0 ? c2.x : c2.y,
+                0 => row switch { 0 => c0.x, 1 => c0.y, _ => throw new IndexOutOfRangeException() },
+                1 => row switch { 0 => c1.x, 1 => c1.y, _ => throw new IndexOutOfRangeException() },
+                2 => row switch { 0 => c2.x, 1 => c2.y, _ => throw new IndexOutOfRangeException() },
                 _ => throw new IndexOutOfRangeException()
             };
             set
             {
                 switch (column)
                 {
-                    case 0: if (row == 0) c0.x = value; else c0.y = value; break;
-                    case 1: if (row == 0) c1.x = value; else c1.y = value; break;
-                    case 2: if (row == 0) c2.x = value; else c2.y = value; break;
+                    case 0: if (row == 0) c0.x = value; else if (row == 1) c0.y = value; else throw new IndexOutOfRangeException(); break;
+                    case 1: if (row == 0) c1.x = value; else if (row == 1) c1.y = value; else throw new IndexOutOfRangeException(); break;
+                    case 2: if (row == 0) c2.x = value; else if (row == 1) c2.y = value; else throw new IndexOutOfRangeException(); break;
                 }
             }
         }
@@ -69,6 +69,8 @@ namespace DivisionEngine.MathLib.Matrices
         public static uint2x3 operator *(uint s, uint2x3 m) => new uint2x3(m.c0 * s, m.c1 * s, m.c2 * s);
         public static uint2x3 operator /(uint2x3 m, uint s) => new uint2x3(m.c0 / s, m.c1 / s, m.c2 / s);
         public static uint2x3 operator +(uint2x3 m) => m;
+        /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
+        public static uint2x3 operator -(uint2x3 m) => new uint2x3(-m.c0, -m.c1, -m.c2);
         public static uint2 operator *(uint2x3 m, uint3 v) => mul(m, v);
         public static uint3 operator *(uint2 v, uint2x3 m) => mul(v, m);
 
