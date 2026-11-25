@@ -15,11 +15,26 @@ namespace DivisionEngine.MathLib
     [StructLayout(LayoutKind.Sequential)]
     public struct bool2x4
     {
+        /// <summary>The first column of the matrix.</summary>
         public bool2 c0;
+        /// <summary>The second column of the matrix.</summary>
         public bool2 c1;
+        /// <summary>The third column of the matrix.</summary>
         public bool2 c2;
+        /// <summary>The fourth column of the matrix.</summary>
         public bool2 c3;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool2x4"/> struct from eight component values specified in row-major order.
+        /// </summary>
+        /// <param name="m00">The value at row 0, column 0.</param>
+        /// <param name="m01">The value at row 0, column 1.</param>
+        /// <param name="m02">The value at row 0, column 2.</param>
+        /// <param name="m03">The value at row 0, column 3.</param>
+        /// <param name="m10">The value at row 1, column 0.</param>
+        /// <param name="m11">The value at row 1, column 1.</param>
+        /// <param name="m12">The value at row 1, column 2.</param>
+        /// <param name="m13">The value at row 1, column 3.</param>
         public bool2x4(bool m00, bool m01, bool m02, bool m03,
                        bool m10, bool m11, bool m12, bool m13)
         {
@@ -28,9 +43,25 @@ namespace DivisionEngine.MathLib
             c2 = new bool2(m02, m12);
             c3 = new bool2(m03, m13);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool2x4"/> struct from the specified columns.
+        /// </summary>
+        /// <param name="c0">The first column.</param>
+        /// <param name="c1">The second column.</param>
+        /// <param name="c2">The third column.</param>
+        /// <param name="c3">The fourth column.</param>
         public bool2x4(bool2 c0, bool2 c1, bool2 c2, bool2 c3)
         { this.c0 = c0; this.c1 = c1; this.c2 = c2; this.c3 = c3; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool2x4"/> struct with all components set to the specified value.
+        /// </summary>
+        /// <param name="value">The value assigned to every component.</param>
         public bool2x4(bool value) { c0 = new bool2(value); c1 = new bool2(value); c2 = new bool2(value); c3 = new bool2(value); }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool2x4"/> struct from a 2x4 array of values in row-major order.
+        /// </summary>
+        /// <param name="m">The 2x4 array of values in row-major order.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="m"/> is not a 2x4 array.</exception>
         public bool2x4(bool[,] m)
         {
             if (m.GetLength(0) != 2 || m.GetLength(1) != 4)
@@ -41,6 +72,12 @@ namespace DivisionEngine.MathLib
             c3 = new bool2(m[0, 3], m[1, 3]);
         }
 
+        /// <summary>
+        /// Gets or sets the column at the specified index.
+        /// </summary>
+        /// <param name="column">The zero-based column index (0 = c0, 1 = c1, 2 = c2, 3 = c3).</param>
+        /// <returns>The column at <paramref name="column"/>.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="column"/> is outside the range 0-3.</exception>
         public bool2 this[int column]
         {
             readonly get => column switch
@@ -62,6 +99,13 @@ namespace DivisionEngine.MathLib
                 }
             }
         }
+        /// <summary>
+        /// Gets or sets the matrix component at the specified row and column.
+        /// </summary>
+        /// <param name="row">The zero-based row index.</param>
+        /// <param name="column">The zero-based column index.</param>
+        /// <returns>The component at the specified row and column.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown when <paramref name="row"/> or <paramref name="column"/> is out of range.</exception>
         public bool this[int row, int column]
         {
             readonly get => column switch
@@ -84,46 +128,81 @@ namespace DivisionEngine.MathLib
             }
         }
 
+        /// <summary>Gets a matrix with all components set to <see langword="false"/>.</summary>
         public static bool2x4 off => new bool2x4(false);
+        /// <summary>Gets a matrix with all components set to <see langword="true"/>.</summary>
         public static bool2x4 on => new bool2x4(true);
+        /// <summary>Gets a matrix with all components set to <see langword="false"/>.</summary>
         public static bool2x4 zero => off;
 
+        /// <summary>Computes the logical negation of each component.</summary>
         public static bool2x4 operator !(bool2x4 m) => new bool2x4(!m.c0, !m.c1, !m.c2, !m.c3);
 
+        /// <summary>Computes the component-wise logical AND of two matrices.</summary>
         public static bool2x4 operator &(bool2x4 a, bool2x4 b) => new bool2x4(a.c0 & b.c0, a.c1 & b.c1, a.c2 & b.c2, a.c3 & b.c3);
+        /// <summary>Computes the logical AND of each component and a scalar value.</summary>
         public static bool2x4 operator &(bool2x4 a, bool b) => new bool2x4(a.c0 & b, a.c1 & b, a.c2 & b, a.c3 & b);
+        /// <summary>Computes the logical AND of a scalar value and each component of the matrix.</summary>
         public static bool2x4 operator &(bool a, bool2x4 b) => new bool2x4(a & b.c0, a & b.c1, a & b.c2, a & b.c3);
 
+        /// <summary>Computes the component-wise logical OR of two matrices.</summary>
         public static bool2x4 operator |(bool2x4 a, bool2x4 b) => new bool2x4(a.c0 | b.c0, a.c1 | b.c1, a.c2 | b.c2, a.c3 | b.c3);
+        /// <summary>Computes the logical OR of each component and a scalar value.</summary>
         public static bool2x4 operator |(bool2x4 a, bool b) => new bool2x4(a.c0 | b, a.c1 | b, a.c2 | b, a.c3 | b);
+        /// <summary>Computes the logical OR of a scalar value and each component of the matrix.</summary>
         public static bool2x4 operator |(bool a, bool2x4 b) => new bool2x4(a | b.c0, a | b.c1, a | b.c2, a | b.c3);
 
+        /// <summary>Computes the component-wise logical XOR of two matrices.</summary>
         public static bool2x4 operator ^(bool2x4 a, bool2x4 b) => new bool2x4(a.c0 ^ b.c0, a.c1 ^ b.c1, a.c2 ^ b.c2, a.c3 ^ b.c3);
+        /// <summary>Computes the logical XOR of each component and a scalar value.</summary>
         public static bool2x4 operator ^(bool2x4 a, bool b) => new bool2x4(a.c0 ^ b, a.c1 ^ b, a.c2 ^ b, a.c3 ^ b);
+        /// <summary>Computes the logical XOR of a scalar value and each component of the matrix.</summary>
         public static bool2x4 operator ^(bool a, bool2x4 b) => new bool2x4(a ^ b.c0, a ^ b.c1, a ^ b.c2, a ^ b.c3);
 
+        /// <summary>Performs a component-wise equality comparison and returns the results as a <see cref="bool2x4"/>.</summary>
         public static bool2x4 operator ==(bool2x4 a, bool2x4 b) => new bool2x4(a.c0 == b.c0, a.c1 == b.c1, a.c2 == b.c2, a.c3 == b.c3);
+        /// <summary>Performs a component-wise inequality comparison and returns the results as a <see cref="bool2x4"/>.</summary>
         public static bool2x4 operator !=(bool2x4 a, bool2x4 b) => new bool2x4(a.c0 != b.c0, a.c1 != b.c1, a.c2 != b.c2, a.c3 != b.c3);
+        /// <summary>Performs a component-wise equality comparison and returns the results as a <see cref="bool2x4"/>.</summary>
         public static bool2x4 operator ==(bool2x4 a, bool b) => new bool2x4(a.c0 == b, a.c1 == b, a.c2 == b, a.c3 == b);
+        /// <summary>Performs a component-wise inequality comparison and returns the results as a <see cref="bool2x4"/>.</summary>
         public static bool2x4 operator !=(bool2x4 a, bool b) => new bool2x4(a.c0 != b, a.c1 != b, a.c2 != b, a.c3 != b);
+        /// <summary>Performs a component-wise equality comparison and returns the results as a <see cref="bool2x4"/>.</summary>
         public static bool2x4 operator ==(bool a, bool2x4 b) => new bool2x4(a == b.c0, a == b.c1, a == b.c2, a == b.c3);
+        /// <summary>Performs a component-wise inequality comparison and returns the results as a <see cref="bool2x4"/>.</summary>
         public static bool2x4 operator !=(bool a, bool2x4 b) => new bool2x4(a != b.c0, a != b.c1, a != b.c2, a != b.c3);
 
+        /// <summary>
+        /// Returns the transpose of the specified matrix.
+        /// </summary>
+        /// <param name="m">The matrix to transpose.</param>
+        /// <returns>The transposed matrix.</returns>
         public static bool4x2 transpose(bool2x4 m) => new bool4x2(
             m.c0.x, m.c0.y,
             m.c1.x, m.c1.y,
             m.c2.x, m.c2.y,
             m.c3.x, m.c3.y);
+        /// <summary>Returns the transpose of the matrix.</summary>
         public readonly bool4x2 transpose() => transpose(this);
 
+        /// <summary>Gets a value indicating whether all components of the matrix are <see langword="true"/>.</summary>
         public readonly bool all => c0.all && c1.all && c2.all && c3.all;
+        /// <summary>Gets a value indicating whether any component of the matrix is <see langword="true"/>.</summary>
         public readonly bool any => c0.any || c1.any || c2.any || c3.any;
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current <see cref="bool2x4"/>.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current <see cref="bool2x4"/>.</param>
+        /// <returns><see langword="true"/> if <paramref name="obj"/> is a <see cref="bool2x4"/> with equal components; otherwise, <see langword="false"/>.</returns>
         public override readonly bool Equals(object? obj) => obj is bool2x4 o && (c0 == o.c0).all && (c1 == o.c1).all && (c2 == o.c2).all && (c3 == o.c3).all;
+        /// <summary>Returns a hash code for the current instance.</summary>
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1, c2, c3);
 
+        /// <summary>Returns a string representation of the matrix.</summary>
         public override readonly string ToString() => $"bool2x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y})";
 
+        /// <summary>Defines an implicit conversion from a <see cref="bool2x4"/> to a <see cref="bool4x4"/>, placing the source in the upper-left corner and padding the remaining components with the identity matrix.</summary>
         public static implicit operator bool4x4(bool2x4 m) => new bool4x4(
             m.c0.x, m.c1.x, m.c2.x, m.c3.x,
             m.c0.y, m.c1.y, m.c2.y, m.c3.y,

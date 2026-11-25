@@ -15,10 +15,22 @@ namespace DivisionEngine.MathLib
     [StructLayout(LayoutKind.Sequential)]
     public struct double2x3
     {
+        /// <summary>The first column of the matrix.</summary>
         public double2 c0;
+        /// <summary>The second column of the matrix.</summary>
         public double2 c1;
+        /// <summary>The third column of the matrix.</summary>
         public double2 c2;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="double2x3"/> struct from six component values specified in row-major order.
+        /// </summary>
+        /// <param name="m00">The value at row 0, column 0.</param>
+        /// <param name="m01">The value at row 0, column 1.</param>
+        /// <param name="m02">The value at row 0, column 2.</param>
+        /// <param name="m10">The value at row 1, column 0.</param>
+        /// <param name="m11">The value at row 1, column 1.</param>
+        /// <param name="m12">The value at row 1, column 2.</param>
         public double2x3(double m00, double m01, double m02,
                          double m10, double m11, double m12)
         {
@@ -26,7 +38,18 @@ namespace DivisionEngine.MathLib
             c1 = new double2(m01, m11);
             c2 = new double2(m02, m12);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="double2x3"/> struct from the specified columns.
+        /// </summary>
+        /// <param name="c0">The first column.</param>
+        /// <param name="c1">The second column.</param>
+        /// <param name="c2">The third column.</param>
         public double2x3(double2 c0, double2 c1, double2 c2) { this.c0 = c0; this.c1 = c1; this.c2 = c2; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="double2x3"/> struct from a 2x3 array of values in row-major order.
+        /// </summary>
+        /// <param name="m">The 2x3 array of values in row-major order.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="m"/> is not a 2x3 array.</exception>
         public double2x3(double[,] m)
         {
             if (m.GetLength(0) != 2 || m.GetLength(1) != 3)
@@ -36,11 +59,24 @@ namespace DivisionEngine.MathLib
             c2 = new double2(m[0, 2], m[1, 2]);
         }
 
+        /// <summary>
+        /// Gets or sets the column at the specified index.
+        /// </summary>
+        /// <param name="column">The zero-based column index (0 = c0, 1 = c1, 2 = c2).</param>
+        /// <returns>The column at <paramref name="column"/>.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="column"/> is outside the range 0-2.</exception>
         public double2 this[int column]
         {
             readonly get => column switch { 0 => c0, 1 => c1, 2 => c2, _ => throw new IndexOutOfRangeException() };
             set { switch (column) { case 0: c0 = value; break; case 1: c1 = value; break; case 2: c2 = value; break; } }
         }
+        /// <summary>
+        /// Gets or sets the matrix component at the specified row and column.
+        /// </summary>
+        /// <param name="row">The zero-based row index.</param>
+        /// <param name="column">The zero-based column index.</param>
+        /// <returns>The component at the specified row and column.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown when <paramref name="row"/> or <paramref name="column"/> is out of range.</exception>
         public double this[int row, int column]
         {
             readonly get => column switch
@@ -61,52 +97,114 @@ namespace DivisionEngine.MathLib
             }
         }
 
+        /// <summary>Gets a matrix with all components set to zero.</summary>
         public static double2x3 zero => new double2x3(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
+        /// <summary>Adds two matrices component-wise.</summary>
         public static double2x3 operator +(double2x3 a, double2x3 b) => new double2x3(a.c0 + b.c0, a.c1 + b.c1, a.c2 + b.c2);
+        /// <summary>Subtracts two matrices component-wise.</summary>
         public static double2x3 operator -(double2x3 a, double2x3 b) => new double2x3(a.c0 - b.c0, a.c1 - b.c1, a.c2 - b.c2);
+        /// <summary>Multiplies each component of the matrix by a scalar value.</summary>
         public static double2x3 operator *(double2x3 m, double s) => new double2x3(m.c0 * s, m.c1 * s, m.c2 * s);
+        /// <summary>Multiplies each component of the matrix by a scalar value.</summary>
         public static double2x3 operator *(double s, double2x3 m) => new double2x3(m.c0 * s, m.c1 * s, m.c2 * s);
+        /// <summary>Divides each component of the matrix by a scalar value.</summary>
         public static double2x3 operator /(double2x3 m, double s) => new double2x3(m.c0 / s, m.c1 / s, m.c2 / s);
+        /// <summary>Negates each component of the matrix.</summary>
         public static double2x3 operator -(double2x3 m) => new double2x3(-m.c0, -m.c1, -m.c2);
+        /// <summary>Returns the matrix unchanged.</summary>
         public static double2x3 operator +(double2x3 m) => m;
+        /// <summary>Multiplies a matrix by a column vector.</summary>
         public static double2 operator *(double2x3 m, double3 v) => mul(m, v);
+        /// <summary>Multiplies a row vector by a matrix.</summary>
         public static double3 operator *(double2 v, double2x3 m) => mul(v, m);
 
+        /// <summary>
+        /// Multiplies each component of the matrix by a scalar value.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="s">The scalar value.</param>
+        /// <returns>The scaled matrix.</returns>
         public static double2x3 mul(double2x3 m, double s) => m * s;
+        /// <summary>
+        /// Multiplies a <see cref="double2x3"/> by a column vector.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="v">The column vector.</param>
+        /// <returns>The transformed vector.</returns>
         public static double2 mul(double2x3 m, double3 v) => m.c0 * v.x + m.c1 * v.y + m.c2 * v.z;
+        /// <summary>
+        /// Multiplies a row vector by a <see cref="double2x3"/>.
+        /// </summary>
+        /// <param name="v">The row vector.</param>
+        /// <param name="m">The matrix.</param>
+        /// <returns>The transformed vector.</returns>
         public static double3 mul(double2 v, double2x3 m) => new double3(
             v.x * m.c0.x + v.y * m.c0.y,
             v.x * m.c1.x + v.y * m.c1.y,
             v.x * m.c2.x + v.y * m.c2.y);
 
+        /// <summary>
+        /// Multiplies a <see cref="double2x3"/> by a <see cref="double3x2"/>.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static double2x2 mul(double2x3 a, double3x2 b) => new double2x2(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z);
+        /// <summary>
+        /// Multiplies a <see cref="double2x3"/> by a <see cref="double3x3"/>.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static double2x3 mul(double2x3 a, double3x3 b) => new double2x3(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
             a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z);
+        /// <summary>
+        /// Multiplies a <see cref="double2x3"/> by a <see cref="double3x4"/>.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static double2x4 mul(double2x3 a, double3x4 b) => new double2x4(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
             a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z,
             a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z);
 
+        /// <summary>
+        /// Returns the transpose of the specified matrix.
+        /// </summary>
+        /// <param name="m">The matrix to transpose.</param>
+        /// <returns>The transposed matrix.</returns>
         public static double3x2 transpose(double2x3 m) => new double3x2(
             m.c0.x, m.c0.y,
             m.c1.x, m.c1.y,
             m.c2.x, m.c2.y);
 
+        /// <summary>Returns the transpose of the matrix.</summary>
         public readonly double3x2 transpose() => transpose(this);
 
+        /// <summary>Determines whether two matrices are equal.</summary>
         public static bool operator ==(double2x3 a, double2x3 b) => (a.c0 == b.c0).all && (a.c1 == b.c1).all && (a.c2 == b.c2).all;
+        /// <summary>Determines whether two matrices are not equal.</summary>
         public static bool operator !=(double2x3 a, double2x3 b) => !(a == b);
+        /// <summary>
+        /// Determines whether the specified object is equal to the current <see cref="double2x3"/>.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current <see cref="double2x3"/>.</param>
+        /// <returns><see langword="true"/> if <paramref name="obj"/> is a <see cref="double2x3"/> with equal components; otherwise, <see langword="false"/>.</returns>
         public override readonly bool Equals(object? obj) => obj is double2x3 o && this == o;
+        /// <summary>Returns a hash code for the current instance.</summary>
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1, c2);
 
+        /// <summary>Returns a string representation of the matrix.</summary>
         public override readonly string ToString() => $"double2x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y})";
 
+        /// <summary>Defines an implicit conversion from a <see cref="double2x3"/> to a <see cref="double3x3"/>, placing the source in the upper-left corner and padding the remaining components with the identity matrix.</summary>
         public static implicit operator double3x3(double2x3 m) => new double3x3(
             m.c0.x, m.c1.x, m.c2.x,
             m.c0.y, m.c1.y, m.c2.y,

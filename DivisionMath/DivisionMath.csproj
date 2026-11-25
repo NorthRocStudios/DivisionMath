@@ -7,7 +7,7 @@
     <RootNamespace>DivisionEngine</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Division Math</Title>
-    <Version>0.3.0</Version>
+    <Version>0.3.1</Version>
     <Authors>Rex Woodfield</Authors>
     <Company>NorthRoc Studios</Company>
     <Description>A math library built for seamless C# to HLSL translation. Functions identically to HLSL math operations.</Description>

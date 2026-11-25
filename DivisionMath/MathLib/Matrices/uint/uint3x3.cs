@@ -15,10 +15,25 @@ namespace DivisionEngine.MathLib
     [StructLayout(LayoutKind.Sequential)]
     public struct uint3x3
     {
+        /// <summary>The first column of the matrix.</summary>
         public uint3 c0;
+        /// <summary>The second column of the matrix.</summary>
         public uint3 c1;
+        /// <summary>The third column of the matrix.</summary>
         public uint3 c2;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="uint3x3"/> struct from nine component values specified in row-major order.
+        /// </summary>
+        /// <param name="m00">The value at row 0, column 0.</param>
+        /// <param name="m01">The value at row 0, column 1.</param>
+        /// <param name="m02">The value at row 0, column 2.</param>
+        /// <param name="m10">The value at row 1, column 0.</param>
+        /// <param name="m11">The value at row 1, column 1.</param>
+        /// <param name="m12">The value at row 1, column 2.</param>
+        /// <param name="m20">The value at row 2, column 0.</param>
+        /// <param name="m21">The value at row 2, column 1.</param>
+        /// <param name="m22">The value at row 2, column 2.</param>
         public uint3x3(uint m00, uint m01, uint m02,
                        uint m10, uint m11, uint m12,
                        uint m20, uint m21, uint m22)
@@ -27,13 +42,28 @@ namespace DivisionEngine.MathLib
             c1 = new uint3(m01, m11, m21);
             c2 = new uint3(m02, m12, m22);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="uint3x3"/> struct from the specified columns.
+        /// </summary>
+        /// <param name="c0">The first column.</param>
+        /// <param name="c1">The second column.</param>
+        /// <param name="c2">The third column.</param>
         public uint3x3(uint3 c0, uint3 c1, uint3 c2) { this.c0 = c0; this.c1 = c1; this.c2 = c2; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="uint3x3"/> struct with the specified value on the main diagonal and zeros elsewhere.
+        /// </summary>
+        /// <param name="diagonal">The value placed on the main diagonal.</param>
         public uint3x3(uint diagonal)
         {
             c0 = new uint3(diagonal, 0u, 0u);
             c1 = new uint3(0u, diagonal, 0u);
             c2 = new uint3(0u, 0u, diagonal);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="uint3x3"/> struct from a 3x3 array of values in row-major order.
+        /// </summary>
+        /// <param name="m">The 3x3 array of values in row-major order.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="m"/> is not a 3x3 array.</exception>
         public uint3x3(uint[,] m)
         {
             if (m.GetLength(0) != 3 || m.GetLength(1) != 3) throw new ArgumentException("Matrix must be 3x3");
@@ -42,11 +72,24 @@ namespace DivisionEngine.MathLib
             c2 = new uint3(m[0, 2], m[1, 2], m[2, 2]);
         }
 
+        /// <summary>
+        /// Gets or sets the column at the specified index.
+        /// </summary>
+        /// <param name="column">The zero-based column index (0 = c0, 1 = c1, 2 = c2).</param>
+        /// <returns>The column at <paramref name="column"/>.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="column"/> is outside the range 0-2.</exception>
         public uint3 this[int column]
         {
             readonly get => column switch { 0 => c0, 1 => c1, 2 => c2, _ => throw new IndexOutOfRangeException() };
             set { switch (column) { case 0: c0 = value; break; case 1: c1 = value; break; case 2: c2 = value; break; } }
         }
+        /// <summary>
+        /// Gets or sets the matrix component at the specified row and column.
+        /// </summary>
+        /// <param name="row">The zero-based row index.</param>
+        /// <param name="column">The zero-based column index.</param>
+        /// <returns>The component at the specified row and column.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="row"/> or <paramref name="column"/> is out of range.</exception>
         public uint this[int row, int column]
         {
             readonly get => column switch
@@ -67,41 +110,93 @@ namespace DivisionEngine.MathLib
             }
         }
 
+        /// <summary>Gets the identity matrix.</summary>
         public static uint3x3 identity => new uint3x3(1u);
+        /// <summary>Gets a matrix with all components set to zero.</summary>
         public static uint3x3 zero => new uint3x3(0u);
 
+        /// <summary>Adds two matrices component-wise.</summary>
         public static uint3x3 operator +(uint3x3 a, uint3x3 b) => new uint3x3(a.c0 + b.c0, a.c1 + b.c1, a.c2 + b.c2);
+        /// <summary>Subtracts two matrices component-wise.</summary>
         public static uint3x3 operator -(uint3x3 a, uint3x3 b) => new uint3x3(a.c0 - b.c0, a.c1 - b.c1, a.c2 - b.c2);
+        /// <summary>Multiplies two matrices.</summary>
         public static uint3x3 operator *(uint3x3 a, uint3x3 b) => mul(a, b);
+        /// <summary>Multiplies each component of the matrix by a scalar value.</summary>
         public static uint3x3 operator *(uint3x3 m, uint s) => new uint3x3(m.c0 * s, m.c1 * s, m.c2 * s);
+        /// <summary>Multiplies each component of the matrix by a scalar value.</summary>
         public static uint3x3 operator *(uint s, uint3x3 m) => new uint3x3(m.c0 * s, m.c1 * s, m.c2 * s);
+        /// <summary>Divides each component of the matrix by a scalar value.</summary>
         public static uint3x3 operator /(uint3x3 m, uint s) => new uint3x3(m.c0 / s, m.c1 / s, m.c2 / s);
+        /// <summary>Returns the matrix unchanged.</summary>
         public static uint3x3 operator +(uint3x3 m) => m;
         /// <summary>Negates each component; unsigned negation wraps, matching HLSL.</summary>
         public static uint3x3 operator -(uint3x3 m) => new uint3x3(-m.c0, -m.c1, -m.c2);
+        /// <summary>Multiplies a matrix by a column vector.</summary>
         public static uint3 operator *(uint3x3 m, uint3 v) => mul(m, v);
+        /// <summary>Multiplies a row vector by a matrix.</summary>
         public static uint3 operator *(uint3 v, uint3x3 m) => mul(v, m);
 
+        /// <summary>
+        /// Multiplies each component of the matrix by a scalar value.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="s">The scalar value.</param>
+        /// <returns>The scaled matrix.</returns>
         public static uint3x3 mul(uint3x3 m, uint s) => m * s;
+        /// <summary>
+        /// Multiplies a <see cref="uint3x3"/> by a column vector.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="v">The column vector.</param>
+        /// <returns>The transformed vector.</returns>
         public static uint3 mul(uint3x3 m, uint3 v) => m.c0 * v.x + m.c1 * v.y + m.c2 * v.z;
+        /// <summary>
+        /// Multiplies a row vector by a <see cref="uint3x3"/>.
+        /// </summary>
+        /// <param name="v">The row vector.</param>
+        /// <param name="m">The matrix.</param>
+        /// <returns>The transformed vector.</returns>
         public static uint3 mul(uint3 v, uint3x3 m) => new uint3(
             v.x * m.c0.x + v.y * m.c0.y + v.z * m.c0.z,
             v.x * m.c1.x + v.y * m.c1.y + v.z * m.c1.z,
             v.x * m.c2.x + v.y * m.c2.y + v.z * m.c2.z);
 
+        /// <summary>
+        /// Multiplies a <see cref="uint3x3"/> by a <see cref="uint3x2"/>.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static uint3x2 mul(uint3x3 a, uint3x2 b) => new uint3x2(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z);
+        /// <summary>
+        /// Multiplies two <see cref="uint3x3"/> matrices.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static uint3x3 mul(uint3x3 a, uint3x3 b) => new uint3x3(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
             a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z);
+        /// <summary>
+        /// Multiplies a <see cref="uint3x3"/> by a <see cref="uint3x4"/>.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static uint3x4 mul(uint3x3 a, uint3x4 b) => new uint3x4(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z,
             a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z,
             a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z);
 
+        /// <summary>
+        /// Returns the transpose of the specified matrix.
+        /// </summary>
+        /// <param name="m">The matrix to transpose.</param>
+        /// <returns>The transposed matrix.</returns>
         public static uint3x3 transpose(uint3x3 m) => new uint3x3(
             m.c0.x, m.c0.y, m.c0.z,
             m.c1.x, m.c1.y, m.c1.z,
@@ -114,36 +209,53 @@ namespace DivisionEngine.MathLib
 
         /// <summary>Unsigned integer matrix inverse is a float3x3 (integer inverses are generally not integral).</summary>
         public static float3x3 inverse(uint3x3 m) => float3x3.inverse((float3x3)m);
+        /// <summary>Returns the transpose of the matrix.</summary>
         public readonly uint3x3 transpose() => transpose(this);
+        /// <summary>Computes the determinant of the matrix, promoting to float.</summary>
         public readonly float determinant() => determinant(this);
+        /// <summary>Computes the inverse of the matrix as a <see cref="float3x3"/>, promoting to float.</summary>
         public readonly float3x3 inverse() => inverse(this);
 
+        /// <summary>Determines whether two matrices are equal.</summary>
         public static bool operator ==(uint3x3 a, uint3x3 b) => (a.c0 == b.c0).all && (a.c1 == b.c1).all && (a.c2 == b.c2).all;
+        /// <summary>Determines whether two matrices are not equal.</summary>
         public static bool operator !=(uint3x3 a, uint3x3 b) => !(a == b);
+        /// <summary>
+        /// Determines whether the specified object is equal to the current <see cref="uint3x3"/>.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current <see cref="uint3x3"/>.</param>
+        /// <returns><see langword="true"/> if <paramref name="obj"/> is a <see cref="uint3x3"/> with equal components; otherwise, <see langword="false"/>.</returns>
         public override readonly bool Equals(object? obj) => obj is uint3x3 o && this == o;
+        /// <summary>Returns a hash code for the current instance.</summary>
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1, c2);
 
+        /// <summary>Returns a string representation of the matrix.</summary>
         public override readonly string ToString() => $"uint3x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y},  {c0.z}, {c1.z}, {c2.z})";
 
+        /// <summary>Defines an implicit conversion from a <see cref="uint3x3"/> to a <see cref="float3x3"/> by converting each component.</summary>
         public static implicit operator float3x3(uint3x3 m) => new float3x3(
             m.c0.x, m.c1.x, m.c2.x,
             m.c0.y, m.c1.y, m.c2.y,
             m.c0.z, m.c1.z, m.c2.z);
+        /// <summary>Defines an implicit conversion from a <see cref="uint3x3"/> to an <see cref="int3x3"/> by converting each component.</summary>
         public static implicit operator int3x3(uint3x3 m) => new int3x3(
             (int)m.c0.x, (int)m.c1.x, (int)m.c2.x,
             (int)m.c0.y, (int)m.c1.y, (int)m.c2.y,
             (int)m.c0.z, (int)m.c1.z, (int)m.c2.z);
+        /// <summary>Defines an implicit conversion from a <see cref="uint3x3"/> to a <see cref="double3x3"/> by converting each component.</summary>
         public static implicit operator double3x3(uint3x3 m) => new double3x3(
             m.c0.x, m.c1.x, m.c2.x,
             m.c0.y, m.c1.y, m.c2.y,
             m.c0.z, m.c1.z, m.c2.z);
 
+        /// <summary>Defines an implicit conversion from a <see cref="uint3x3"/> to a <see cref="uint4x4"/>, placing the source in the upper-left corner and padding the remaining components with the identity matrix.</summary>
         public static implicit operator uint4x4(uint3x3 m) => new uint4x4(
             m.c0.x, m.c1.x, m.c2.x, 0u,
             m.c0.y, m.c1.y, m.c2.y, 0u,
             m.c0.z, m.c1.z, m.c2.z, 0u,
             0u, 0u, 0u, 1u);
 
+        /// <summary>Defines an implicit conversion from a <see cref="uint2x2"/> to a <see cref="uint3x3"/>, placing the source in the upper-left corner and padding the remaining components with the identity matrix.</summary>
         public static implicit operator uint3x3(uint2x2 m) => new uint3x3(
             m.c0.x, m.c1.x, 0u,
             m.c0.y, m.c1.y, 0u,

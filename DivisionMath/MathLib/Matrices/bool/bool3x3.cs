@@ -15,10 +15,25 @@ namespace DivisionEngine.MathLib
     [StructLayout(LayoutKind.Sequential)]
     public struct bool3x3
     {
+        /// <summary>The first column of the matrix.</summary>
         public bool3 c0;
+        /// <summary>The second column of the matrix.</summary>
         public bool3 c1;
+        /// <summary>The third column of the matrix.</summary>
         public bool3 c2;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool3x3"/> struct from nine component values specified in row-major order.
+        /// </summary>
+        /// <param name="m00">The value at row 0, column 0.</param>
+        /// <param name="m01">The value at row 0, column 1.</param>
+        /// <param name="m02">The value at row 0, column 2.</param>
+        /// <param name="m10">The value at row 1, column 0.</param>
+        /// <param name="m11">The value at row 1, column 1.</param>
+        /// <param name="m12">The value at row 1, column 2.</param>
+        /// <param name="m20">The value at row 2, column 0.</param>
+        /// <param name="m21">The value at row 2, column 1.</param>
+        /// <param name="m22">The value at row 2, column 2.</param>
         public bool3x3(bool m00, bool m01, bool m02,
                        bool m10, bool m11, bool m12,
                        bool m20, bool m21, bool m22)
@@ -27,8 +42,23 @@ namespace DivisionEngine.MathLib
             c1 = new bool3(m01, m11, m21);
             c2 = new bool3(m02, m12, m22);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool3x3"/> struct from the specified columns.
+        /// </summary>
+        /// <param name="c0">The first column.</param>
+        /// <param name="c1">The second column.</param>
+        /// <param name="c2">The third column.</param>
         public bool3x3(bool3 c0, bool3 c1, bool3 c2) { this.c0 = c0; this.c1 = c1; this.c2 = c2; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool3x3"/> struct with all components set to the specified value.
+        /// </summary>
+        /// <param name="value">The value assigned to every component.</param>
         public bool3x3(bool value) { c0 = new bool3(value); c1 = new bool3(value); c2 = new bool3(value); }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="bool3x3"/> struct from a 3x3 array of values in row-major order.
+        /// </summary>
+        /// <param name="m">The 3x3 array of values in row-major order.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="m"/> is not a 3x3 array.</exception>
         public bool3x3(bool[,] m)
         {
             if (m.GetLength(0) != 3 || m.GetLength(1) != 3) throw new ArgumentException("Matrix must be 3x3");
@@ -37,11 +67,24 @@ namespace DivisionEngine.MathLib
             c2 = new bool3(m[0, 2], m[1, 2], m[2, 2]);
         }
 
+        /// <summary>
+        /// Gets or sets the column at the specified index.
+        /// </summary>
+        /// <param name="column">The zero-based column index (0 = c0, 1 = c1, 2 = c2).</param>
+        /// <returns>The column at <paramref name="column"/>.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="column"/> is outside the range 0-2.</exception>
         public bool3 this[int column]
         {
             readonly get => column switch { 0 => c0, 1 => c1, 2 => c2, _ => throw new IndexOutOfRangeException() };
             set { switch (column) { case 0: c0 = value; break; case 1: c1 = value; break; case 2: c2 = value; break; } }
         }
+        /// <summary>
+        /// Gets or sets the matrix component at the specified row and column.
+        /// </summary>
+        /// <param name="row">The zero-based row index.</param>
+        /// <param name="column">The zero-based column index.</param>
+        /// <returns>The component at the specified row and column.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="row"/> or <paramref name="column"/> is out of range.</exception>
         public bool this[int row, int column]
         {
             readonly get => column switch
@@ -62,55 +105,92 @@ namespace DivisionEngine.MathLib
             }
         }
 
+        /// <summary>Gets a matrix with all components set to <see langword="false"/>.</summary>
         public static bool3x3 off => new bool3x3(false);
+        /// <summary>Gets a matrix with all components set to <see langword="true"/>.</summary>
         public static bool3x3 on => new bool3x3(true);
+        /// <summary>Gets a matrix with all components set to <see langword="false"/>.</summary>
         public static bool3x3 zero => off;
+        /// <summary>Gets the identity matrix, with <see langword="true"/> on the main diagonal and <see langword="false"/> everywhere else.</summary>
         public static bool3x3 identity => new bool3x3(
             true, false, false,
             false, true, false,
             false, false, true);
 
+        /// <summary>Computes the logical negation of each component.</summary>
         public static bool3x3 operator !(bool3x3 m) => new bool3x3(!m.c0, !m.c1, !m.c2);
 
+        /// <summary>Computes the component-wise logical AND of two matrices.</summary>
         public static bool3x3 operator &(bool3x3 a, bool3x3 b) => new bool3x3(a.c0 & b.c0, a.c1 & b.c1, a.c2 & b.c2);
+        /// <summary>Computes the logical AND of each component and a scalar value.</summary>
         public static bool3x3 operator &(bool3x3 a, bool b) => new bool3x3(a.c0 & b, a.c1 & b, a.c2 & b);
+        /// <summary>Computes the logical AND of a scalar value and each component of the matrix.</summary>
         public static bool3x3 operator &(bool a, bool3x3 b) => new bool3x3(a & b.c0, a & b.c1, a & b.c2);
 
+        /// <summary>Computes the component-wise logical OR of two matrices.</summary>
         public static bool3x3 operator |(bool3x3 a, bool3x3 b) => new bool3x3(a.c0 | b.c0, a.c1 | b.c1, a.c2 | b.c2);
+        /// <summary>Computes the logical OR of each component and a scalar value.</summary>
         public static bool3x3 operator |(bool3x3 a, bool b) => new bool3x3(a.c0 | b, a.c1 | b, a.c2 | b);
+        /// <summary>Computes the logical OR of a scalar value and each component of the matrix.</summary>
         public static bool3x3 operator |(bool a, bool3x3 b) => new bool3x3(a | b.c0, a | b.c1, a | b.c2);
 
+        /// <summary>Computes the component-wise logical XOR of two matrices.</summary>
         public static bool3x3 operator ^(bool3x3 a, bool3x3 b) => new bool3x3(a.c0 ^ b.c0, a.c1 ^ b.c1, a.c2 ^ b.c2);
+        /// <summary>Computes the logical XOR of each component and a scalar value.</summary>
         public static bool3x3 operator ^(bool3x3 a, bool b) => new bool3x3(a.c0 ^ b, a.c1 ^ b, a.c2 ^ b);
+        /// <summary>Computes the logical XOR of a scalar value and each component of the matrix.</summary>
         public static bool3x3 operator ^(bool a, bool3x3 b) => new bool3x3(a ^ b.c0, a ^ b.c1, a ^ b.c2);
 
+        /// <summary>Performs a component-wise equality comparison and returns the results as a <see cref="bool3x3"/>.</summary>
         public static bool3x3 operator ==(bool3x3 a, bool3x3 b) => new bool3x3(a.c0 == b.c0, a.c1 == b.c1, a.c2 == b.c2);
+        /// <summary>Performs a component-wise inequality comparison and returns the results as a <see cref="bool3x3"/>.</summary>
         public static bool3x3 operator !=(bool3x3 a, bool3x3 b) => new bool3x3(a.c0 != b.c0, a.c1 != b.c1, a.c2 != b.c2);
+        /// <summary>Performs a component-wise equality comparison and returns the results as a <see cref="bool3x3"/>.</summary>
         public static bool3x3 operator ==(bool3x3 a, bool b) => new bool3x3(a.c0 == b, a.c1 == b, a.c2 == b);
+        /// <summary>Performs a component-wise inequality comparison and returns the results as a <see cref="bool3x3"/>.</summary>
         public static bool3x3 operator !=(bool3x3 a, bool b) => new bool3x3(a.c0 != b, a.c1 != b, a.c2 != b);
+        /// <summary>Performs a component-wise equality comparison and returns the results as a <see cref="bool3x3"/>.</summary>
         public static bool3x3 operator ==(bool a, bool3x3 b) => new bool3x3(a == b.c0, a == b.c1, a == b.c2);
+        /// <summary>Performs a component-wise inequality comparison and returns the results as a <see cref="bool3x3"/>.</summary>
         public static bool3x3 operator !=(bool a, bool3x3 b) => new bool3x3(a != b.c0, a != b.c1, a != b.c2);
 
+        /// <summary>
+        /// Returns the transpose of the specified matrix.
+        /// </summary>
+        /// <param name="m">The matrix to transpose.</param>
+        /// <returns>The transposed matrix.</returns>
         public static bool3x3 transpose(bool3x3 m) => new bool3x3(
             m.c0.x, m.c0.y, m.c0.z,
             m.c1.x, m.c1.y, m.c1.z,
             m.c2.x, m.c2.y, m.c2.z);
+        /// <summary>Returns the transpose of the matrix.</summary>
         public readonly bool3x3 transpose() => transpose(this);
 
+        /// <summary>Gets a value indicating whether all components of the matrix are <see langword="true"/>.</summary>
         public readonly bool all => c0.all && c1.all && c2.all;
+        /// <summary>Gets a value indicating whether any component of the matrix is <see langword="true"/>.</summary>
         public readonly bool any => c0.any || c1.any || c2.any;
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current <see cref="bool3x3"/>.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current <see cref="bool3x3"/>.</param>
+        /// <returns><see langword="true"/> if <paramref name="obj"/> is a <see cref="bool3x3"/> with equal components; otherwise, <see langword="false"/>.</returns>
         public override readonly bool Equals(object? obj) => obj is bool3x3 o && (c0 == o.c0).all && (c1 == o.c1).all && (c2 == o.c2).all;
+        /// <summary>Returns a hash code for the current instance.</summary>
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1, c2);
 
+        /// <summary>Returns a string representation of the matrix.</summary>
         public override readonly string ToString() => $"bool3x3({c0.x}, {c1.x}, {c2.x},  {c0.y}, {c1.y}, {c2.y},  {c0.z}, {c1.z}, {c2.z})";
 
+        /// <summary>Defines an implicit conversion from a <see cref="bool3x3"/> to a <see cref="bool4x4"/>, placing the source in the upper-left corner and padding the remaining components with the identity matrix.</summary>
         public static implicit operator bool4x4(bool3x3 m) => new bool4x4(
             m.c0.x, m.c1.x, m.c2.x, false,
             m.c0.y, m.c1.y, m.c2.y, false,
             m.c0.z, m.c1.z, m.c2.z, false,
             false, false, false, true);
 
+        /// <summary>Defines an implicit conversion from a <see cref="bool2x2"/> to a <see cref="bool3x3"/>, placing the source in the upper-left corner and padding the remaining components with the identity matrix.</summary>
         public static implicit operator bool3x3(bool2x2 m) => new bool3x3(
             m.c0.x, m.c1.x, false,
             m.c0.y, m.c1.y, false,

@@ -15,11 +15,34 @@ namespace DivisionEngine.MathLib
     [StructLayout(LayoutKind.Sequential)]
     public struct half4x4
     {
+        /// <summary>The first column of the matrix.</summary>
         public half4 c0;
+        /// <summary>The second column of the matrix.</summary>
         public half4 c1;
+        /// <summary>The third column of the matrix.</summary>
         public half4 c2;
+        /// <summary>The fourth column of the matrix.</summary>
         public half4 c3;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="half4x4"/> struct from sixteen component values specified in row-major order.
+        /// </summary>
+        /// <param name="m00">The value at row 0, column 0.</param>
+        /// <param name="m01">The value at row 0, column 1.</param>
+        /// <param name="m02">The value at row 0, column 2.</param>
+        /// <param name="m03">The value at row 0, column 3.</param>
+        /// <param name="m10">The value at row 1, column 0.</param>
+        /// <param name="m11">The value at row 1, column 1.</param>
+        /// <param name="m12">The value at row 1, column 2.</param>
+        /// <param name="m13">The value at row 1, column 3.</param>
+        /// <param name="m20">The value at row 2, column 0.</param>
+        /// <param name="m21">The value at row 2, column 1.</param>
+        /// <param name="m22">The value at row 2, column 2.</param>
+        /// <param name="m23">The value at row 2, column 3.</param>
+        /// <param name="m30">The value at row 3, column 0.</param>
+        /// <param name="m31">The value at row 3, column 1.</param>
+        /// <param name="m32">The value at row 3, column 2.</param>
+        /// <param name="m33">The value at row 3, column 3.</param>
         public half4x4(float m00, float m01, float m02, float m03,
                        float m10, float m11, float m12, float m13,
                        float m20, float m21, float m22, float m23,
@@ -30,8 +53,19 @@ namespace DivisionEngine.MathLib
             c2 = new half4(m02, m12, m22, m32);
             c3 = new half4(m03, m13, m23, m33);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="half4x4"/> struct from the specified columns.
+        /// </summary>
+        /// <param name="c0">The first column.</param>
+        /// <param name="c1">The second column.</param>
+        /// <param name="c2">The third column.</param>
+        /// <param name="c3">The fourth column.</param>
         public half4x4(half4 c0, half4 c1, half4 c2, half4 c3)
         { this.c0 = c0; this.c1 = c1; this.c2 = c2; this.c3 = c3; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="half4x4"/> struct with the specified value on the main diagonal and zeros elsewhere.
+        /// </summary>
+        /// <param name="diagonal">The value placed on the main diagonal.</param>
         public half4x4(float diagonal)
         {
             c0 = new half4(diagonal, 0f, 0f, 0f);
@@ -39,6 +73,11 @@ namespace DivisionEngine.MathLib
             c2 = new half4(0f, 0f, diagonal, 0f);
             c3 = new half4(0f, 0f, 0f, diagonal);
         }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="half4x4"/> struct from a 4x4 array of values in row-major order.
+        /// </summary>
+        /// <param name="m">The 4x4 array of values in row-major order.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="m"/> is not a 4x4 array.</exception>
         public half4x4(float[,] m)
         {
             if (m.GetLength(0) != 4 || m.GetLength(1) != 4) throw new ArgumentException("Matrix must be 4x4");
@@ -48,11 +87,24 @@ namespace DivisionEngine.MathLib
             c3 = new half4(m[0, 3], m[1, 3], m[2, 3], m[3, 3]);
         }
 
+        /// <summary>
+        /// Gets or sets the column at the specified index.
+        /// </summary>
+        /// <param name="column">The zero-based column index (0 = c0, 1 = c1, 2 = c2, 3 = c3).</param>
+        /// <returns>The column at <paramref name="column"/>.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="column"/> is outside the range 0-3.</exception>
         public half4 this[int column]
         {
             readonly get => column switch { 0 => c0, 1 => c1, 2 => c2, 3 => c3, _ => throw new IndexOutOfRangeException() };
             set { switch (column) { case 0: c0 = value; break; case 1: c1 = value; break; case 2: c2 = value; break; case 3: c3 = value; break; } }
         }
+        /// <summary>
+        /// Gets or sets the matrix component at the specified row and column.
+        /// </summary>
+        /// <param name="row">The zero-based row index.</param>
+        /// <param name="column">The zero-based column index.</param>
+        /// <returns>The component at the specified row and column.</returns>
+        /// <exception cref="IndexOutOfRangeException">Thrown by the getter when <paramref name="row"/> or <paramref name="column"/> is out of range.</exception>
         public float this[int row, int column]
         {
             readonly get => column switch
@@ -75,47 +127,105 @@ namespace DivisionEngine.MathLib
             }
         }
 
+        /// <summary>Gets the identity matrix.</summary>
         public static half4x4 identity => new half4x4(1f);
+        /// <summary>Gets a matrix with all components set to zero.</summary>
         public static half4x4 zero => new half4x4(0f);
 
+        /// <summary>Adds two matrices component-wise.</summary>
         public static half4x4 operator +(half4x4 a, half4x4 b) => new half4x4(a.c0 + b.c0, a.c1 + b.c1, a.c2 + b.c2, a.c3 + b.c3);
+        /// <summary>Subtracts two matrices component-wise.</summary>
         public static half4x4 operator -(half4x4 a, half4x4 b) => new half4x4(a.c0 - b.c0, a.c1 - b.c1, a.c2 - b.c2, a.c3 - b.c3);
+        /// <summary>Multiplies two matrices.</summary>
         public static half4x4 operator *(half4x4 a, half4x4 b) => mul(a, b);
+        /// <summary>Multiplies each component of the matrix by a scalar value.</summary>
         public static half4x4 operator *(half4x4 m, float s) => new half4x4(m.c0 * s, m.c1 * s, m.c2 * s, m.c3 * s);
+        /// <summary>Multiplies each component of the matrix by a scalar value.</summary>
         public static half4x4 operator *(float s, half4x4 m) => new half4x4(m.c0 * s, m.c1 * s, m.c2 * s, m.c3 * s);
+        /// <summary>Divides each component of the matrix by a scalar value.</summary>
         public static half4x4 operator /(half4x4 m, float s) => new half4x4(m.c0 / s, m.c1 / s, m.c2 / s, m.c3 / s);
+        /// <summary>Negates each component of the matrix.</summary>
         public static half4x4 operator -(half4x4 m) => new half4x4(-m.c0, -m.c1, -m.c2, -m.c3);
+        /// <summary>Returns the matrix unchanged.</summary>
         public static half4x4 operator +(half4x4 m) => m;
+        /// <summary>Multiplies a matrix by a column vector.</summary>
         public static half4 operator *(half4x4 m, half4 v) => mul(m, v);
+        /// <summary>Multiplies a row vector by a matrix.</summary>
         public static half4 operator *(half4 v, half4x4 m) => mul(v, m);
 
+        /// <summary>
+        /// Multiplies each component of the matrix by a scalar value.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="s">The scalar value.</param>
+        /// <returns>The scaled matrix.</returns>
         public static half4x4 mul(half4x4 m, float s) => m * s;
+        /// <summary>
+        /// Multiplies a <see cref="half4x4"/> by a column vector.
+        /// </summary>
+        /// <param name="m">The matrix.</param>
+        /// <param name="v">The column vector.</param>
+        /// <returns>The transformed vector.</returns>
         public static half4 mul(half4x4 m, half4 v) => m.c0 * v.x + m.c1 * v.y + m.c2 * v.z + m.c3 * v.w;
+        /// <summary>
+        /// Multiplies a row vector by a <see cref="half4x4"/>.
+        /// </summary>
+        /// <param name="v">The row vector.</param>
+        /// <param name="m">The matrix.</param>
+        /// <returns>The transformed vector.</returns>
         public static half4 mul(half4 v, half4x4 m) => new half4(
             v.x * m.c0.x + v.y * m.c0.y + v.z * m.c0.z + v.w * m.c0.w,
             v.x * m.c1.x + v.y * m.c1.y + v.z * m.c1.z + v.w * m.c1.w,
             v.x * m.c2.x + v.y * m.c2.y + v.z * m.c2.z + v.w * m.c2.w,
             v.x * m.c3.x + v.y * m.c3.y + v.z * m.c3.z + v.w * m.c3.w);
 
+        /// <summary>
+        /// Multiplies a <see cref="half4x4"/> by a <see cref="half4x2"/>.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static half4x2 mul(half4x4 a, half4x2 b) => new half4x2(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z + a.c3 * b.c0.w,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z + a.c3 * b.c1.w);
+        /// <summary>
+        /// Multiplies a <see cref="half4x4"/> by a <see cref="half4x3"/>.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static half4x3 mul(half4x4 a, half4x3 b) => new half4x3(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z + a.c3 * b.c0.w,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z + a.c3 * b.c1.w,
             a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z + a.c3 * b.c2.w);
+        /// <summary>
+        /// Multiplies two <see cref="half4x4"/> matrices.
+        /// </summary>
+        /// <param name="a">The left matrix.</param>
+        /// <param name="b">The right matrix.</param>
+        /// <returns>The product matrix.</returns>
         public static half4x4 mul(half4x4 a, half4x4 b) => new half4x4(
             a.c0 * b.c0.x + a.c1 * b.c0.y + a.c2 * b.c0.z + a.c3 * b.c0.w,
             a.c0 * b.c1.x + a.c1 * b.c1.y + a.c2 * b.c1.z + a.c3 * b.c1.w,
             a.c0 * b.c2.x + a.c1 * b.c2.y + a.c2 * b.c2.z + a.c3 * b.c2.w,
             a.c0 * b.c3.x + a.c1 * b.c3.y + a.c2 * b.c3.z + a.c3 * b.c3.w);
 
+        /// <summary>
+        /// Returns the transpose of the specified matrix.
+        /// </summary>
+        /// <param name="m">The matrix to transpose.</param>
+        /// <returns>The transposed matrix.</returns>
         public static half4x4 transpose(half4x4 m) => new half4x4(
             m.c0.x, m.c0.y, m.c0.z, m.c0.w,
             m.c1.x, m.c1.y, m.c1.z, m.c1.w,
             m.c2.x, m.c2.y, m.c2.z, m.c2.w,
             m.c3.x, m.c3.y, m.c3.z, m.c3.w);
 
+        /// <summary>
+        /// Computes the determinant of the specified matrix.
+        /// </summary>
+        /// <param name="m">The matrix whose determinant is computed.</param>
+        /// <returns>The determinant of the matrix.</returns>
         public static float determinant(half4x4 m)
         {
             float det = m.c0.x * (
@@ -138,6 +248,11 @@ namespace DivisionEngine.MathLib
             return det;
         }
 
+        /// <summary>
+        /// Computes the inverse of the specified matrix.
+        /// </summary>
+        /// <param name="m">The matrix to invert.</param>
+        /// <returns>The inverse of the matrix.</returns>
         public static half4x4 inverse(half4x4 m)
         {
             float det = determinant(m);
@@ -170,18 +285,31 @@ namespace DivisionEngine.MathLib
                 c03, c13, c23, c33);
         }
 
+        /// <summary>Returns the transpose of the matrix.</summary>
         public readonly half4x4 transpose() => transpose(this);
+        /// <summary>Computes the determinant of the matrix.</summary>
         public readonly float determinant() => determinant(this);
+        /// <summary>Computes the inverse of the matrix.</summary>
         public readonly half4x4 inverse() => inverse(this);
 
+        /// <summary>Determines whether two matrices are equal.</summary>
         public static bool operator ==(half4x4 a, half4x4 b) => (a.c0 == b.c0).all && (a.c1 == b.c1).all && (a.c2 == b.c2).all && (a.c3 == b.c3).all;
+        /// <summary>Determines whether two matrices are not equal.</summary>
         public static bool operator !=(half4x4 a, half4x4 b) => !(a == b);
+        /// <summary>
+        /// Determines whether the specified object is equal to the current <see cref="half4x4"/>.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current <see cref="half4x4"/>.</param>
+        /// <returns><see langword="true"/> if <paramref name="obj"/> is a <see cref="half4x4"/> with equal components; otherwise, <see langword="false"/>.</returns>
         public override readonly bool Equals(object? obj) => obj is half4x4 o && this == o;
+        /// <summary>Returns a hash code for the current instance.</summary>
         public override readonly int GetHashCode() => HashCode.Combine(c0, c1, c2, c3);
 
+        /// <summary>Returns a string representation of the matrix.</summary>
         public override readonly string ToString() =>
             $"half4x4({c0.x}, {c1.x}, {c2.x}, {c3.x},  {c0.y}, {c1.y}, {c2.y}, {c3.y},  {c0.z}, {c1.z}, {c2.z}, {c3.z},  {c0.w}, {c1.w}, {c2.w}, {c3.w})";
 
+        /// <summary>Defines an implicit widening conversion from a <see cref="half4x4"/> to a <see cref="float4x4"/>, matching HLSL's half-to-float promotion.</summary>
         public static implicit operator float4x4(half4x4 m) => new float4x4(
             m.c0.x, m.c1.x, m.c2.x, m.c3.x,
             m.c0.y, m.c1.y, m.c2.y, m.c3.y,
